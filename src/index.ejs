@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>radar_standalone_app</title>
+    <% if (htmlWebpackPlugin.options.nodeModules) { %>
+      <!-- Add `node_modules/` to global paths so `require` works properly in development -->
+      <script>
+        require('module').globalPaths.push('<%= htmlWebpackPlugin.options.nodeModules.replace(/\\/g, '\\\\') %>')
+      </script>
+    <% } %>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- Set `__static` path to static files in production -->
+    <% if (!process.browser) { %>
+      <script>
+        if (process.env.NODE_ENV !== 'development') window.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+      </script>
+    <% } %>
+
+    <!-- webpack builds are automatically injected -->
+    <script>
+
+      /*
+       * 分析：
+       * 获取鼠标实时移动的坐标；m_move_x,m_move_y
+       * 鼠标按下时的坐标；m_down_x,m_down_y
+       * div的坐标；dx,dy
+       * 鼠标按下时，鼠标与div的偏移量；md_x,md_y
+       * div的新坐标；ndx,ndy
+       */
+
+      var isDown = false;//记录鼠标状态
+      var oldX, oldY
+      //鼠标按下
+      function down() {
+          move_div = document.getElementById("move_div");
+          isDown = true;
+
+          //获取鼠标按下时坐标
+          oldX = event.pageX;
+          oldY = event.pageY;
+
+      }
+
+      //鼠标移动
+      function move() {
+          newX = event.pageX;
+          newY = event.pageY;
+
+          //鼠标按下时移动才触发
+          if (isDown) {
+              zoomRate = 500 / document.getElementById('dataview').clientWidth;
+              vm._data.transform.translate.x += (newX - oldX) * zoomRate;
+              vm._data.transform.translate.y += (newY - oldY) * zoomRate;
+              oldX = newX;
+              oldY = newY;
+          }
+
+      }
+
+      //鼠标释放
+      function up() {
+          isDown = false;
+      }
+
+
+  </script>
+
+  </body>
+</html>
