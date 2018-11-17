@@ -1,7 +1,7 @@
 <template>
 <div>
   <h3>Radar Plot</h3>
-    <div id="dataview" v-on:mousedown="down()" v-on:mouseup="up()" v-on:mousemove="move()">
+    <div id="plot" onshow="plotshow" v-on:mousedown="down()" v-on:mouseup="up()" v-on:mousemove="move()">
         <svg id="svg" viewBox="0,0,500,500" width="100%" height="100%">
             <g :transform="transform_str">
                 <line v-for="l in lines" :x1="l[0]" :y1="l[1]" :x2="l[2]" :y2="l[3]" />
@@ -15,6 +15,9 @@
     </div>
 </template>
 <script>
+window.plotshow = function () {
+  console.log('SHOW')
+}
 export default {
   data () {
     return {
@@ -946,7 +949,21 @@ export default {
       }
       return result
     }
+
+    // plotstyle () {
+    //   var videoheight = document.getElementById('video').clientHeight
+    //   console.log('RESIZE ', videoheight)
+    //   return {'height': videoheight}
+    // }
+    // videoHight () {
+    //   var e = document.getElementById('radarvideo')
+    //   console.log('VV', e)
+    //   if (e) {
+    //     return e.clientHeight + 'px'
+    //   }
+    // }
   },
+
   methods: {
     // 鼠标按下
     down () {
@@ -993,7 +1010,7 @@ polyline {
   fill: transparent;
 }
 #dataview {
-  height: 500px;
+  height: 300px;
 }
 </style>
 

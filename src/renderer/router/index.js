@@ -10,10 +10,16 @@ export default new Router({
     //   name: 'landing-page',
     //   component: require('@/components/LandingPage').default
     // },
+    // {
+    //   path: '/',
+    //   name: 'radar-monitor',
+    //   component: require('@/components/RadarMonitor').default
+    // },
+
     {
       path: '/',
-      name: 'radar-monitor',
-      component: require('@/components/RadarMonitor').default
+      name: 'home',
+      component: require('@/components/Home').default
     },
     {
       path: '*',
