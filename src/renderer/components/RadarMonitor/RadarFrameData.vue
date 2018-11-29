@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Frame Data</h3>
+    <h3>数据记录</h3>
     <el-table
       :data="tableData"
       style="width: 100%">

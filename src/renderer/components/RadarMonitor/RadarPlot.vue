@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h3>Radar Plot</h3>
+  <h3>雷达地图</h3>
     <div id="plot" onshow="plotshow" v-on:mousedown="down()" v-on:mouseup="up()" v-on:mousemove="move()">
         <svg id="svg" viewBox="0,0,500,500" width="100%" height="100%">
             <g :transform="transform_str">

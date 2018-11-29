@@ -1,6 +1,6 @@
 <template>
     <div id="radarvideo" >
-        <h3>Reference Video</h3>
+        <h3>视频</h3>
         <video id="video" autoplay></video>
     </div>
 </template>
@@ -11,7 +11,7 @@ export default {
     var syncHeight = function () {
       var height = document.getElementById('video').clientHeight
       console.log('RESIZE ', height)
-      document.getElementById('plot').style.height = height + 'px'
+      document.getElementById('plot').style.height = height + 4 + 'px'
     }
     window.addEventListener('resize', syncHeight)
     window.addEventListener('load', syncHeight)
@@ -77,6 +77,10 @@ navigator.mediaDevices
 <style>
 #video {
   background-color: gray;
-  width: 100%;
+  width: 100%;  
+}
+
+#radarvideo{
+  padding-bottom: 1em;
 }
 </style>
