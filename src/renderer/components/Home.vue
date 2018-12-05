@@ -81,7 +81,9 @@
           <play-back></play-back>
         </el-tab-pane>
         <el-tab-pane label="角色管理" name="fourth">角色管理</el-tab-pane>
-        <el-tab-pane label="任务管理" name="fifth">任务管理</el-tab-pane>
+        <el-tab-pane label="警报邮件" name="fifth">
+          <warn-notify></warn-notify>
+        </el-tab-pane>
       </el-tabs>
     </el-col>
   </el-row>
@@ -91,14 +93,15 @@ import SideMenu from './SideMenu'
 import RadarMonitor from './RadarMonitor'
 import UserList from './UserList'
 import PlayBack from './PlayBack'
-
+import WarnNotify from './WarnNotify'
 export default {
   name: 'radar-home',
   components: {
     SideMenu,
     RadarMonitor,
     UserList,
-    PlayBack
+    PlayBack,
+    WarnNotify
   },
   data () {
     return {
