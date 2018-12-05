@@ -1,22 +1,25 @@
 <template>
-    <div>
-        <el-row :gutter="5">
-            <el-col :span="12"><div class="grid-content bg-purple">
-                <radar-plot></radar-plot>
-                </div></el-col>
-            <el-col :span="12"><div class="grid-content bg-purple">
-                <radar-video></radar-video>
-                
-                </div></el-col>
-            
-        </el-row>
-        <el-row :gutter="5">
-            <el-col :span="24"><div class="grid-content bg-purple">      
-            <radar-frame-data></radar-frame-data>
-            </div></el-col>
-        </el-row>
-        
-    </div>
+  <div>
+    <el-row :gutter="5">
+       <el-col :xs="24" :sm="18" :md="12" :lg="12" :xl="12">
+        <div class="grid-content bg-purple">
+          <radar-plot></radar-plot>
+        </div>
+      </el-col>
+       <el-col :xs="24" :sm="18" :md="12" :lg="12" :xl="12">
+        <div class="grid-content bg-purple">
+          <radar-video></radar-video>
+        </div>
+      </el-col>
+    </el-row>
+    <el-row :gutter="5">
+      <el-col :span="24">
+        <div class="grid-content bg-purple">
+          <radar-frame-data></radar-frame-data>
+        </div>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>

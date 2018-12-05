@@ -1,12 +1,28 @@
 <template>
     <div id="radarvideo" >
         <h3>视频</h3>
-        <video id="video" autoplay></video>
+        <h1 class="time">{{ currenttime }}</h1>
+        <video id="video" autoplay>
+        </video>
     </div>
 </template>
 
 <script type="text/javascript">
+
+function formatDate (d) {
+  var D = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09']
+  return [
+    [d.getFullYear(), D[d.getMonth() + 1] || d.getMonth() + 1, D[d.getDate()] || d.getDate()].join('-'),
+    [D[d.getHours()] || d.getHours(), D[d.getMinutes()] || d.getMinutes(), D[d.getSeconds()] || d.getSeconds()].join(':')
+  ].join(' ')
+}
+
 export default {
+  data () {
+    return {
+      currenttime: ''
+    }
+  },
   created () {
     var syncHeight = function () {
       var height = document.getElementById('video').clientHeight
@@ -15,7 +31,13 @@ export default {
     }
     window.addEventListener('resize', syncHeight)
     window.addEventListener('load', syncHeight)
+    var self = this
+    window.setInterval(() => {
+      var date = new Date()
+      self.currenttime = formatDate(date)
+    }, 200)
   }
+
 }
 // window.updatePlotHeight = function () {
 // var height = document.getElementById("video").clientHeight;
@@ -80,7 +102,12 @@ navigator.mediaDevices
   width: 100%;  
 }
 
-#radarvideo{
-  padding-bottom: 1em;
+
+
+.time{
+  color: red;
+  position: absolute;
+  right: 10px;
+  font-family: Arial, Helvetica, sans-serif
 }
 </style>
