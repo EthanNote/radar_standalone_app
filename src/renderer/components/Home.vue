@@ -80,7 +80,9 @@
         <el-tab-pane label="记录回放" name="third">
           <play-back></play-back>
         </el-tab-pane>
-        <el-tab-pane label="角色管理" name="fourth">角色管理</el-tab-pane>
+        <el-tab-pane label="连接管理" name="fourth">
+          <connection></connection>
+        </el-tab-pane>
         <el-tab-pane label="警报邮件" name="fifth">
           <warn-notify></warn-notify>
         </el-tab-pane>
@@ -94,6 +96,7 @@ import RadarMonitor from './RadarMonitor'
 import UserList from './UserList'
 import PlayBack from './PlayBack'
 import WarnNotify from './WarnNotify'
+import Connection from './Connection'
 export default {
   name: 'radar-home',
   components: {
@@ -101,7 +104,8 @@ export default {
     RadarMonitor,
     UserList,
     PlayBack,
-    WarnNotify
+    WarnNotify,
+    Connection
   },
   data () {
     return {

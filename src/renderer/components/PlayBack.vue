@@ -138,12 +138,14 @@ export default {
   computed: {
     gettable () {
       var result = []
-      for (var i = 0; i < this.playbackdata.list; i++) {
-        result.push({
-          date: this.playbackdata.list[i].nodes[2],
-          name: '路径'
-        })
-      }
+      result.push({
+        date: '日期',
+        name: '路径'
+      })
+      result.push({
+        date: '日期',
+        name: '路径'
+      })
       return result
 
       // return [
