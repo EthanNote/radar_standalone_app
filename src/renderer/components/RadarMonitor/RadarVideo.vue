@@ -1,9 +1,9 @@
 <template>
     <div id="radarvideo" >
         <h3>视频</h3>
-        <h1 class="time">{{ currenttime }}</h1>
         <video id="video" autoplay>
         </video>
+        <h2 class="videotime">{{ currenttime }}</h2>
     </div>
 </template>
 
@@ -104,10 +104,13 @@ navigator.mediaDevices
 
 
 
-.time{
-  color: red;
-  position: absolute;
-  right: 10px;
-  font-family: Arial, Helvetica, sans-serif
+.videotime{
+  color: white;
+  position: relative;
+  top: -50px;
+  right: 5px;
+  float: right;
+  font-family: Arial, Helvetica, sans-serif;
+  text-shadow: #000 3px 0 0, #000 0 3px 0, #000 -3px 0 0, #000 0 -3px 0;
 }
 </style>
