@@ -219,6 +219,11 @@ export default {
         self.frameindex = 0
       }
     }, 1000)
+
+    window.eventBus.$on('playback', (data) => {
+      console.log('NEW PLAYBACK DATA')
+      console.log(data)
+    })
   }
 }
 </script>

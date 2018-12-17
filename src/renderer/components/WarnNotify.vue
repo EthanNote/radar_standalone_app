@@ -99,6 +99,11 @@ export default {
   },
   created () {
     this.emailjs = require('emailjs-com')
+
+    var self = this
+    window.eventBus.$on('mail', (data) => {
+      self.details = JSON.stringify(data)
+    })
   }
 }
 </script>
