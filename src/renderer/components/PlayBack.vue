@@ -8,11 +8,7 @@
               
               <g>
                 <path :d="currentdata.path"></path>
-                <text
-                  v-for="node in currentdata.nodes"
-                  :x="node[0]"
-                  :y="node[1]"
-                >{{ formatDate(new Date(node[2])) }}</text>
+                <text v-for="node in currentdata.nodes" :x="node[0]" :y="node[1]">{{ formatDate(new Date(node[2])) }}</text>
               </g>
               </svg>
           </div>
@@ -42,8 +38,9 @@
     </el-row>
     <el-row>
       <el-table :data="gettable" height="250" border style="width: 100%">
-        <el-table-column prop="date" label="日期" width="180"></el-table-column>
-        <el-table-column prop="name" label="类型" width="180"></el-table-column>
+        <el-table-column prop="begin" label="起始时间" width="180"></el-table-column>
+        <el-table-column prop="end" label="结束时间" width="180"></el-table-column>
+        <el-table-column prop="length" label="节点数量" width="180"></el-table-column>
         <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.$index)" type="text" size="small">查看</el-button>
@@ -56,33 +53,8 @@
 </template>
 
 <script>
-var fs = require('fs')
+// var fs = require('fs')
 
-window.playbackdata = {
-  list: [],
-  index: 0
-}
-
-fs.readFile('playbacklist.json', 'utf8', function (err, data) {
-  if (err) {
-    console.error(err)
-  } else {
-    console.log(data)
-    window.playbackdata.list = JSON.parse(data)
-  }
-})
-
-// window.playbacktimer = window.setInterval(() => {
-//   if (window.currentPlaybackData.images.length > 0) {
-//     window.currentPlaybackData.index += 1;
-//     if (
-//       window.currentPlaybackData.index >=
-//       window.currentPlaybackData.images.length
-//     ) {
-//       window.currentPlaybackData.index = 0;
-//     }
-//   }
-// }, 200);
 var buildpathformnodelist = function (nodelist) {
   if (nodelist.length < 1) {
     return ''
@@ -100,7 +72,10 @@ var buildpathformnodelist = function (nodelist) {
 export default {
   data () {
     return {
-      playbackdata: window.playbackdata,
+      playbackdata: {
+        list: [],
+        index: 0
+      },
       frameindex: 0
     }
   },
@@ -138,28 +113,26 @@ export default {
   computed: {
     gettable () {
       var result = []
-      result.push({
-        date: '日期',
-        name: '路径'
-      })
-      result.push({
-        date: '日期',
-        name: '路径'
-      })
-      return result
+      for (var i in this.playbackdata.list) {
+        var data = this.playbackdata.list[i]
 
-      // return [
-      //   {
-      //     date: '2016-05-03',
-      //     name: '王小虎',
-      //     address: { x: 1 }
-      //   },
-      //   {
-      //     date: '2016-05-03',
-      //     name: '王小虎',
-      //     address: { x: 1 }
-      //   }
-      // ]
+        console.log('GT ')
+        console.log(data)
+        if (data.nodes.length > 0) {
+          result.push({begin: this.formatDate(new Date(data.nodes[0][2])),
+            end: this.formatDate(new Date(data.nodes[data.nodes.length - 1][2])),
+            length: data.nodes.length})
+        }
+      }
+      // result.push({
+      //   date: '日期',
+      //   name: '路径'
+      // })
+      // result.push({
+      //   date: '日期',
+      //   name: '路径'
+      // })
+      return result
     },
 
     currentdata () {
@@ -170,8 +143,6 @@ export default {
       }
 
       if (currentplayback) {
-        // this.playbackData.path = currentplayback.path;
-        // this.playbackData.images = currentplayback.images;
         var image = ''
         if (currentplayback.images.length > 0) {
           image = currentplayback.images[this.frameindex]
@@ -188,30 +159,19 @@ export default {
       }
     }
 
-    // current_img() {
-    //   var playback = this.currentdata();
-
-    //   // this.update_list();
-    //   console.log("new playback", playback);
-
-    //   if (playback && playback.images.length > 0) {
-    //     return playback.images[this.frameindex];
-    //   } else {
-    //     return "";
-    //   }
-    // },
-
-    // current_path() {
-    //   var playback = this.currentdata();
-    //   if (playback) {
-    //     return playback.path;
-    //   } else {
-    //     return "";
-    //   }
-    // }
   },
   created () {
     var self = this
+
+    // fs.readFile('playbacklist.json', 'utf8', function (err, data) {
+    //   if (err) {
+    //     console.error(err)
+    //   } else {
+    //     console.log(data)
+    //     self.playbackdata.list = JSON.parse(data)
+    //   }
+    // })
+
     window.setInterval(function () {
       // self.playbacklist = window.playbacklist
       self.frameindex += 1
@@ -223,6 +183,10 @@ export default {
     window.eventBus.$on('playback', (data) => {
       console.log('NEW PLAYBACK DATA')
       console.log(data)
+
+      if (data.nodes && data.images) {
+        self.playbackdata.list.push({nodes: data.nodes, images: data.images})
+      }
     })
   }
 }
