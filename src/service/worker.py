@@ -78,7 +78,11 @@ if __name__=="__main__":
 
     while True:
         input()
-        testdata = {"dispatch":"workers", "emit":{"event":"playback", "args": build_random_playback() }}
+        # testdata = {"dispatch":"workers", "emit":{"event":"playback", "args": build_random_playback() }}
+        y = random.random()
+        x = random.random()
+        testdata = {"dispatch":"workers", "emit":{"event":"dot", "args": {"x":(x-0.5)/2, "y":y/2+0.5}}}
+        print(testdata)
         w.sendMessage(json.dumps(testdata))
 
     # with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:

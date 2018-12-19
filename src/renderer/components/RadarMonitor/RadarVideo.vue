@@ -24,13 +24,13 @@ export default {
     }
   },
   created () {
-    var syncHeight = function () {
-      var height = document.getElementById('video').clientHeight
-      console.log('RESIZE ', height)
-      document.getElementById('plot').style.height = height + 4 + 'px'
-    }
-    window.addEventListener('resize', syncHeight)
-    window.addEventListener('load', syncHeight)
+    // var syncHeight = function () {
+    //   var height = document.getElementById('video').clientHeight
+    //   console.log('RESIZE ', height)
+    //   document.getElementById('plot').style.height = height + 4 + 'px'
+    // }
+    // window.addEventListener('resize', syncHeight)
+    // window.addEventListener('load', syncHeight)
     var self = this
     window.setInterval(() => {
       var date = new Date()
