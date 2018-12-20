@@ -17,9 +17,9 @@
 
 
 <script>
-window.plotshow = function () {
-  console.log('SHOW')
-}
+// window.plotshow = function () {
+//   console.log('SHOW')
+// }
 
 var shaderlib = {
   points: {
@@ -180,16 +180,16 @@ export default {
         this.zoomLevel -= 1
       }
       this.zoom = Math.pow(2, this.zoomLevel / 5)
-      console.log(event)
-      console.log(this.zoom)
+      // console.log(event)
+      // console.log(this.zoom)
     },
 
     mouseenter: function () {
-      console.log('ENTER')
+      // console.log('ENTER')
       window.document.body.style.overflow = 'hidden'
     },
     mouseleave: function () {
-      console.log('LEAVE')
+      // console.log('LEAVE')
       window.document.body.style.overflow = ''
     }
 

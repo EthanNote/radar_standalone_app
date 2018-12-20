@@ -1,14 +1,45 @@
 <template>
     <div id="radarvideo" >
         <h3>视频</h3>
-        <video id="video" autoplay>
-        </video>
+        <h2 class ="rec" v-show="capture.remaining>0">● REC</h2>
+        <video id="video" autoplay></video>
         <h2 class="videotime">{{ currenttime }}</h2>
+        <canvas hidden id='cvs' width="640" height="480"></canvas>
     </div>
 </template>
 
 <script type="text/javascript">
 
+var fs = require('fs')
+
+/* eslint-disable */
+var get_buffer = function () {
+  var canvas = document.getElementById('cvs')
+  var base64 = canvas.toDataURL('png')
+  var data = base64.split('base64,')[1]
+  var buf = new Buffer(data, 'base64')
+  return buf
+}
+
+var video_capture = function () {
+  var canvas = document.getElementById('cvs')
+  var context = canvas.getContext('2d')
+  var video = document.getElementById('video')
+
+  context.drawImage(video, 0, 0, 640, 480)
+}
+
+var save_canvas_to_file = function () {
+  var myDate = new Date()
+  video_capture()
+  var fname = './capture/' + myDate.getTime() + '.png'
+  console.log('captrue frame', fname)
+
+  var data = get_buffer()
+  fs.writeFileSync(fname, data)
+  return fname
+}
+/* eslint-enable */
 function formatDate (d) {
   var D = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09']
   return [
@@ -20,10 +51,25 @@ function formatDate (d) {
 export default {
   data () {
     return {
-      currenttime: ''
+      currenttime: '',
+      capture: {
+        duration: 15,
+        remaining: 0,
+        capturedFiles: []
+      }
     }
   },
+  methods: {
+    captureOne () {
+
+    }
+  },
+
   created () {
+    window.eventBus.$on('dot', (arg) => {
+      this.capture.remaining = this.capture.duration * 1
+    })
+
     // var syncHeight = function () {
     //   var height = document.getElementById('video').clientHeight
     //   console.log('RESIZE ', height)
@@ -35,7 +81,40 @@ export default {
     window.setInterval(() => {
       var date = new Date()
       self.currenttime = formatDate(date)
+      if (self.capture.remaining > 0) {
+        self.capture.remaining -= 1
+        console.log(self.capture.remaining)
+        video_capture()
+        var fname = save_canvas_to_file()
+        self.capture.capturedFiles.push(fname)
+        if (self.capture.remaining <= 0) {
+          console.log('Capture finished')
+          console.log(JSON.stringify(self.capture.capturedFiles))
+          self.capture.capturedFiles = []
+        }
+      }
     }, 200)
+
+    var constraints = {
+      audio: false,
+      video: {
+        width: 1280,
+        height: 720
+      }
+    }
+
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then(function (stream) {
+        var video = document.querySelector('video')
+        video.src = window.URL.createObjectURL(stream)
+        video.onloadedmetadata = function (e) {
+          video.play()
+        }
+      })
+      .catch(function (err) {
+        console.log(err.name + ': ' + err.message)
+      })
   }
 
 }
@@ -73,27 +152,6 @@ if (navigator.mediaDevices === undefined) {
 // if (navigator.mediaDevices.getUserMedia === undefined) {
 //   navigator.mediaDevices.getUserMedia = promisifiedOldGUM
 // }
-
-var constraints = {
-  audio: false,
-  video: {
-    width: 1280,
-    height: 720
-  }
-}
-
-navigator.mediaDevices
-  .getUserMedia(constraints)
-  .then(function (stream) {
-    var video = document.querySelector('video')
-    video.src = window.URL.createObjectURL(stream)
-    video.onloadedmetadata = function (e) {
-      video.play()
-    }
-  })
-  .catch(function (err) {
-    console.log(err.name + ': ' + err.message)
-  })
 </script>
 
 <style>
@@ -110,6 +168,20 @@ navigator.mediaDevices
   top: -50px;
   right: 5px;
   float: right;
+  font-family: Arial, Helvetica, sans-serif;
+  text-shadow: #000 3px 0 0, #000 0 3px 0, #000 -3px 0 0, #000 0 -3px 0;
+}
+
+
+.rec{
+  height: 0px;
+  padding: 0px;
+  margin:0px;
+  color: red;
+  position: relative;
+  top: 25px;
+  left: 5px;
+  float: left;
   font-family: Arial, Helvetica, sans-serif;
   text-shadow: #000 3px 0 0, #000 0 3px 0, #000 -3px 0 0, #000 0 -3px 0;
 }
