@@ -10,7 +10,7 @@
                 <polyline v-for="l in polylines" :points="l"></polyline>
             </g>
       </svg>-->
-      <canvas id="canvas" width="800" height="600" @mousedown="mousedown($event)" @mousemove.prevent='mousemove($event)' @mouseup='mouseup($event)'></canvas>
+      <canvas id="canvas" width="800" height="600" @mouseenter="mouseenter" @mouseleave="mouseleave" @mousedown="mousedown($event)" @mousemove.prevent='mousemove($event)' @mouseup='mouseup($event)' @mousewheel='mousewheel($event)'></canvas>
     </div>
   </div>
 </template>
@@ -104,6 +104,7 @@ export default {
       points: [],
 
       zoom: 1.0,
+      zoomLevel: 0,
       position: [0, -0.5]
 
     }
@@ -131,22 +132,22 @@ export default {
         [ 0.75 * this.zoom, 0, 0,
           0, 1 * this.zoom, 0,
           0.75 * this.position[0], this.position[1], 1]
+      if (this.points.length > 0) {
+        gl.useProgram(this.programPoints)
+        gl.uniformMatrix3fv(transformLocation, false, transformMatrix)
 
-      gl.useProgram(this.programPoints)
-      gl.uniformMatrix3fv(transformLocation, false, transformMatrix)
-
-      gl.enableVertexAttribArray(positionLocation)
-      gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0)
-      // draw
-      gl.drawArrays(gl.TRIANGLES, 0, this.points.length * 6)
-
+        gl.enableVertexAttribArray(positionLocation)
+        gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0)
+        // draw
+        gl.drawArrays(gl.TRIANGLES, 0, this.points.length * 6)
+      }
       gl.bindBuffer(gl.ARRAY_BUFFER, this.bufferAxis)
 
       gl.useProgram(this.programAxis)
       gl.uniformMatrix3fv(transformLocationAxis, false, transformMatrix)
       gl.enableVertexAttribArray(positionLocationAxis)
       gl.vertexAttribPointer(positionLocationAxis, 2, gl.FLOAT, false, 0, 0)
-      gl.drawArrays(gl.LINES, 0, 8)
+      gl.drawArrays(gl.LINES, 0, 128)
     },
 
     mousedown: function (event) {
@@ -163,6 +164,7 @@ export default {
         this.position[0] += (curPos.x - this.last_pos.x) * 0.005
         this.position[1] -= (curPos.y - this.last_pos.y) * 0.005
         this.last_pos = curPos
+
         // this.position[0] = this.old_position[0] + (this.down_pos.x - event.x) * 0.0001
         // this.position[1] = this.old_position[1] + (this.down_pos.y - event.y) * 0.0001
         // this.draw()
@@ -170,6 +172,25 @@ export default {
     },
     mouseup: function (e) {
       this.is_moving = false
+    },
+    mousewheel: function (event) {
+      if (event.deltaY > 0) {
+        this.zoomLevel += 1
+      } else {
+        this.zoomLevel -= 1
+      }
+      this.zoom = Math.pow(2, this.zoomLevel / 5)
+      console.log(event)
+      console.log(this.zoom)
+    },
+
+    mouseenter: function () {
+      console.log('ENTER')
+      window.document.body.style.overflow = 'hidden'
+    },
+    mouseleave: function () {
+      console.log('LEAVE')
+      window.document.body.style.overflow = ''
     }
 
   },
@@ -195,6 +216,13 @@ export default {
       -100, 0, 100, 0, 0, -100, 0, 100, -100, 100, 0, 0, 0, 0, 100, 100
     ]
 
+    for (var i = 1; i <= 50; i++) {
+      axisVertex = axisVertex.concat([0, i / 5, i / 5, i / 5])
+    }
+
+    for (i = 1; i <= 10; i++) {
+      axisVertex = axisVertex.concat([0, i, -i, i])
+    }
     // var bufferAxis = gl.createBuffer()
 
     gl.bindBuffer(gl.ARRAY_BUFFER, this.bufferAxis)
@@ -215,8 +243,6 @@ export default {
 
     window.eventBus.$on('dot', (arg) => {
       this.points.push([arg.x, arg.y, 1])
-      console.log(arg)
-      console.log(this.points)
     })
 
     // gl.useProgram(programPoints)
