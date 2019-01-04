@@ -86,6 +86,9 @@
         <el-tab-pane label="警报邮件" name="fifth">
           <warn-notify></warn-notify>
         </el-tab-pane>
+        <el-tab-pane label="进程管理" name="sixth">
+          <workers></workers>
+        </el-tab-pane>
       </el-tabs>
     </el-col>
   </el-row>
@@ -97,6 +100,7 @@ import UserList from './UserList'
 import PlayBack from './PlayBack'
 import WarnNotify from './WarnNotify'
 import Connection from './Connection'
+import Workers from './Workers'
 export default {
   name: 'radar-home',
   components: {
@@ -105,11 +109,12 @@ export default {
     UserList,
     PlayBack,
     WarnNotify,
-    Connection
+    Connection,
+    Workers
   },
   data () {
     return {
-      activeName: 'second'
+      activeName: 'first'
     }
   },
   methods: {

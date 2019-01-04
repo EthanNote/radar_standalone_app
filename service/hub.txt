@@ -1,0 +1,25 @@
+
+C:\Users\snipe_000\Documents\dev\radar_standalone_app\service>python service_hub.py 
+# INCOMMING #  IPv4Address(type='TCP', host='127.0.0.1', port=6897)
+[WORKER 127.0.0.1:6897] CONNECTION MADE
+[WORKER 127.0.0.1:6897]: {"dispatch": "workers", "emit": {"event": "dot", "args": {"x": 0.21661831572500867, "y": 0.9173767578754604}}}
+Dispatch to workers
+    => 127.0.0.1:6897
+[WORKER 127.0.0.1:6897]: {"dispatch": "workers", "emit": {"event": "dot", "args": {"x": 0.052441136806904876, "y": 0.7441140230712668}}}
+Dispatch to workers
+    => 127.0.0.1:6897
+[WORKER 127.0.0.1:6897]: {"dispatch": "workers", "emit": {"event": "dot", "args": {"x": 0.2326373228667698, "y": 0.5215834459962982}}}
+Dispatch to workers
+    => 127.0.0.1:6897
+[WORKER 127.0.0.1:6897]: {"dispatch": "workers", "emit": {"event": "dot", "args": {"x": 0.17863722081256989, "y": 0.9719380359089971}}}
+Dispatch to workers
+    => 127.0.0.1:6897
+[WORKER 127.0.0.1:6897]: {"dispatch": "workers", "emit": {"event": "dot", "args": {"x": -0.2082559548668595, "y": 0.5213636838198589}}}
+Dispatch to workers
+    => 127.0.0.1:6897
+[WORKER 127.0.0.1:6897]: {"dispatch": "workers", "emit": {"event": "dot", "args": {"x": 0.0061912601322226535, "y": 0.8507780719949237}}}
+Dispatch to workers
+    => 127.0.0.1:6897
+[WORKER 127.0.0.1:6897] CONNECTION LOST: [Failure instance: Traceback (failure with no frames): <class 'twisted.internet.error.ConnectionLost'>: Connection to the other side was lost in a non-clean fashion: Connection lost.
+]
+终止批处理操作吗(Y/N)? 
