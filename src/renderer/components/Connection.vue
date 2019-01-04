@@ -1,11 +1,16 @@
 <template>
   <div>
     <h1>连接</h1>
+    <el-button @click="connect" type="text" size="small">连接</el-button>
     <div>{{ status }}</div>
     <div v-for="r in history">
       <h3>{{ r.time }}</h3>
       <div>format = {{ r.format }}</div>
-      <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 15}" :value="r.content.toString()"></el-input>
+      <el-input
+        type="textarea"
+        :autosize="{ minRows: 4, maxRows: 15}"
+        :value="r.content.toString()"
+      ></el-input>
     </div>
   </div>
 </template>
@@ -34,8 +39,41 @@ export default {
           D[d.getSeconds()] || d.getSeconds()
         ].join(':')
       ].join(' ')
-    }
+    },
 
+    connect () {
+      var self = this
+      this.client.connect(
+        6666,
+        'localhost',
+        function () {
+          console.log('Connected to server')
+          self.status = '已连接'
+          var command = '{"rename":"ELECTRON_CLIENT"}'
+          self.client.write('' + command.length + ':' + command + ',')
+        }
+      )
+
+      this.client.on('data', function (data) {
+        console.log('>' + data)
+        var msg = data.replace(/[0-9][0-9]*:/, '').replace(/,$/, '')
+        self.status = ('收到消息，长度 = ' + msg.length).toString()
+        var date = new Date()
+        // date.setDate(date.getDate() + 1)
+
+        var parsed = JSON.parse(msg)
+        var format = 'string'
+        if (parsed) {
+          format = 'JSON'
+          if (parsed.emit) {
+            window.eventBus.$emit(parsed.emit.event, parsed.emit.args)
+          }
+        }
+        self.history = [
+          { time: self.formatDate(date), format: format, content: msg }
+        ].concat(self.history)
+      })
+    }
   },
 
   created () {
@@ -44,33 +82,12 @@ export default {
     // var dgrm = require('dgram')
     var net = require('net')
     var client = new net.Socket()
+    self.client = client
     client.setEncoding('ascii')
-    client.connect(6666, 'localhost', function () {
-      console.log('Connected to server')
-      self.status = '已连接'
-      var command = '{"rename":"ELECTRON_CLIENT"}'
-      client.write('' + command.length + ':' + command + ',')
+
+    window.eventBus.$on('console.log', arg => {
+      console.log(arg)
     })
-
-    client.on('data', function (data) {
-      console.log('>' + data)
-      var msg = data.replace(/[0-9][0-9]*:/, '').replace(/,$/, '')
-      self.status = ('收到消息，长度 = ' + msg.length).toString()
-      var date = new Date()
-      // date.setDate(date.getDate() + 1)
-
-      var parsed = JSON.parse(msg)
-      var format = 'string'
-      if (parsed) {
-        format = 'JSON'
-        if (parsed.emit) {
-          window.eventBus.$emit(parsed.emit.event, parsed.emit.args)
-        }
-      }
-      self.history = [{time: self.formatDate(date), format: format, content: msg}].concat(self.history)
-    })
-
-    window.eventBus.$on('console.log', (arg) => { console.log(arg) })
 
     // var server = dgrm.createSocket('udp4') // udp4为指定UDP通信的协议类型
     // server.on('message', function (msg, rinfo) {
