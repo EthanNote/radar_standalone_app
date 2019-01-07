@@ -42,7 +42,7 @@ export default {
       )
     })
 
-    window.setInterval(self.fetchState, 1000)
+    // window.setInterval(self.fetchState, 1000)
   },
   methods: {
     fetchState () {

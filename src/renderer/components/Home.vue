@@ -89,6 +89,9 @@
         <el-tab-pane label="进程管理" name="sixth">
           <workers></workers>
         </el-tab-pane>
+        <el-tab-pane label="隧道测距" name="seventh">
+          <tunnel></tunnel>
+        </el-tab-pane>
       </el-tabs>
     </el-col>
   </el-row>
@@ -101,6 +104,7 @@ import PlayBack from './PlayBack'
 import WarnNotify from './WarnNotify'
 import Connection from './Connection'
 import Workers from './Workers'
+import Tunnel from './Tunnel'
 export default {
   name: 'radar-home',
   components: {
@@ -110,7 +114,8 @@ export default {
     PlayBack,
     WarnNotify,
     Connection,
-    Workers
+    Workers,
+    Tunnel
   },
   data () {
     return {

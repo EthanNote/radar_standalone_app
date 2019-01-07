@@ -78,10 +78,14 @@ if __name__=="__main__":
 
     while True:
         input()
+        ## playback event
         # testdata = {"dispatch":"workers", "emit":{"event":"playback", "args": build_random_playback() }}
-        y = random.random()
-        x = random.random()
-        testdata = {"dispatch":"workers", "emit":{"event":"dot", "args": {"x":(x-0.5)/2, "y":y/2+0.5}}}
+        ## dot event
+        # y = random.random()
+        # x = random.random()
+        # testdata = {"dispatch":"workers", "emit":{"event":"dot", "args": {"x":(x-0.5)/2, "y":y/2+0.5}}}
+        ## tunnel event
+        testdata = {"dispatch":"workers", "emit":{"event":"tunnel", "args": {"time":"2019.1.7", "distance":"1500"}}}
         print(testdata)
         w.sendMessage(json.dumps(testdata))
 

@@ -1,12 +1,12 @@
 <template>
   <div>
     <el-row :gutter="5">
-       <el-col :xs="24" :sm="18" :md="12" :lg="12" :xl="12">
+      <el-col :xs="24" :sm="18" :md="12" :lg="12" :xl="12">
         <div class="grid-content bg-purple">
           <radar-plot></radar-plot>
         </div>
       </el-col>
-       <el-col :xs="24" :sm="18" :md="12" :lg="12" :xl="12">
+      <el-col :xs="24" :sm="18" :md="12" :lg="12" :xl="12">
         <div class="grid-content bg-purple">
           <radar-video></radar-video>
         </div>
@@ -19,6 +19,7 @@
         </div>
       </el-col>
     </el-row>
+     <canvas id="myChart2" width="400px" height="400px"></canvas>
   </div>
 </template>
 
@@ -26,6 +27,7 @@
 import RadarPlot from './RadarMonitor/RadarPlot'
 import RadarFrameData from './RadarMonitor/RadarFrameData'
 import RadarVideo from './RadarMonitor/RadarVideo'
+// import Chart from 'chart.js'
 
 export default {
   name: 'radar-monitor',
@@ -35,6 +37,47 @@ export default {
   //       this.$electron.shell.openExternal(link);
   //     }
   //   }
+
+  // mounted () {
+  //   var ctx2 = document.getElementById('myChart2')
+
+  //   this.myChart2 = new Chart(ctx2, {
+  //     type: 'line',
+  //     data: {
+  //       labels: [
+  //         'January',
+  //         'February',
+  //         'March',
+  //         'April',
+  //         'May',
+  //         'June',
+  //         'July',
+  //         'August',
+  //         'September',
+  //         'October',
+  //         'November',
+  //         'December'
+  //       ],
+  //       datasets: [
+  //         {
+  //           label: 'test1',
+  //           backgroundColor: 'rgba(225,10,10,0.3)',
+  //           borderColor: 'rgba(225,103,110,1)',
+  //           borderWidth: 1,
+  //           pointStrokeColor: '#fff',
+  //           pointStyle: 'crossRot',
+  //           data: [65, 59, 0, 81, 56, 10, 40, 22, 32, 54, 10, 30],
+  //           cubicInterpolationMode: 'monotone',
+  //           spanGaps: 'false',
+  //           fill: 'false'
+  //         }
+  //       ]
+  //     },
+  //     options: {}
+  //   })
+
+  //   console.log(this.myChart2)
+  // }
 }
 </script>
 
