@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-table
-            :data="users.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+            :data="this.user.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
             style="width: 100%"
             :default-sort="{prop: 'createdDate', order: 'descending'}"
         >
@@ -30,9 +30,19 @@
                 label="权限级别"
                 sortable
             >
-            <template slot-scope="scope">
-                    <el-button type="success" round size="medium" v-show="scope.row.level === 'admin'">Admin</el-button>
-                    <el-button type="default" round size="medium" v-show="scope.row.level === 'user'">User</el-button>
+                <template slot-scope="scope">
+                    <el-button
+                        type="success"
+                        round
+                        size="medium"
+                        v-show="scope.row.level === 'admin'"
+                    >Admin</el-button>
+                    <el-button
+                        type="default"
+                        round
+                        size="medium"
+                        v-show="scope.row.level === 'user'"
+                    >User</el-button>
 
                 </template>
             </el-table-column>
@@ -67,15 +77,15 @@ import axios from 'axios'
 export default {
   data () {
     return {
-      users: [],
       search: ''
     }
   },
   created () {
-    axios.get('https://easy-mock.com/mock/5c3585321776390cf4a22824/user/').then(response => {
-      console.log(response)
-      this.users = response.data
-    })
+    // axios.get('https://easy-mock.com/mock/5c3585321776390cf4a22824/user/').then(response => {
+    //   console.log(response)
+    //   this.users = response.data
+    // })
+    // console.log(this.user)
   },
   methods: {
     handleEdit (index, row) {
