@@ -92,6 +92,9 @@
         <el-tab-pane label="隧道测距" name="seventh">
           <tunnel></tunnel>
         </el-tab-pane>
+        <el-tab-pane label="帧统计" name="eighth">
+          <frame-statics></frame-statics>
+        </el-tab-pane>
       </el-tabs>
     </el-col>
   </el-row>
@@ -105,6 +108,8 @@ import WarnNotify from './WarnNotify'
 import Connection from './Connection'
 import Workers from './Workers'
 import Tunnel from './Tunnel'
+import FrameStatics from './FrameStatics'
+
 export default {
   name: 'radar-home',
   components: {
@@ -115,7 +120,8 @@ export default {
     WarnNotify,
     Connection,
     Workers,
-    Tunnel
+    Tunnel,
+    FrameStatics
   },
   data () {
     return {
