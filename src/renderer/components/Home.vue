@@ -95,6 +95,9 @@
         <el-tab-pane label="帧统计" name="eighth">
           <frame-statics></frame-statics>
         </el-tab-pane>
+        <el-tab-pane label="区外离线检测" name="nineth">
+          <transection-monitor></transection-monitor>
+        </el-tab-pane>
       </el-tabs>
     </el-col>
   </el-row>
@@ -109,7 +112,7 @@ import Connection from './Connection'
 import Workers from './Workers'
 import Tunnel from './Tunnel'
 import FrameStatics from './FrameStatics'
-
+import TransectionMonitor from './TransectionMonitor'
 export default {
   name: 'radar-home',
   components: {
@@ -121,7 +124,8 @@ export default {
     Connection,
     Workers,
     Tunnel,
-    FrameStatics
+    FrameStatics,
+    TransectionMonitor
   },
   data () {
     return {

@@ -28,7 +28,7 @@ export default {
     var ctx2 = document.getElementById('distance_chart')
     // var self = this
     this.chart = new Chart(ctx2, {
-      type: 'line',
+      type: 'bar',
       data: {
         datasets: [
           {
