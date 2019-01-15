@@ -1,6 +1,8 @@
 import socket
 import re
 import threading
+import datetime
+import random
 
 HOST = '127.0.0.1'    # The remote host
 PORT = 6666             # The same port as used by the server
@@ -85,7 +87,9 @@ if __name__=="__main__":
         # x = random.random()
         # testdata = {"dispatch":"workers", "emit":{"event":"dot", "args": {"x":(x-0.5)/2, "y":y/2+0.5}}}
         ## tunnel event
-        testdata = {"dispatch":"workers", "emit":{"event":"tunnel", "args": {"time":"2019.1.7", "distance":"1500"}}}
+        # testdata = {"dispatch":"workers", "emit":{"event":"tunnel", "args": {"time":"2019.1.7", "distance":"1500"}}}
+        ## transection event
+        testdata = {"dispatch":"workers", "emit":{"event":"transection", "args": {"area":"A"+str(random.randint(0, 8)),"time":str(datetime.datetime.now()), "action":random.randint(0,1)}}}
         print(testdata)
         w.sendMessage(json.dumps(testdata))
 

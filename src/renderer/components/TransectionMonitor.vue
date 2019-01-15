@@ -129,6 +129,19 @@ export default {
 
       self.currentDuration = 0
     }
+
+    window.eventBus.$on('transection', (data) => {
+      var time = new Date(data.time)
+      if (self.transections.length > 0) {
+        var lastDuration = time - self.transections[self.transections.length - 1].time
+        self.transections[self.transections.length - 1].duration = lastDuration
+      }
+      console.log(data.date)
+      console.log(time)
+      self.transections.push({area: data.area, time: time.getTime(), action: data.action, duration: self.currentDuration})
+      self.currentDuration = 0
+    })
+
     window.setInterval(() => {
       self.currentDuration += 100.0
     }, 100)
