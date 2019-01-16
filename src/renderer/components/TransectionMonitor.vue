@@ -28,6 +28,9 @@
         <div>
           <h3>区外</h3>
           <h3>持续时间: {{outsideDuration/1000 }}秒</h3>
+          <h3>限制时间: {{outsideAlarmTime/1000 }}秒</h3>
+          <h3>警报进度</h3>
+          <el-progress type="circle" :percentage="getAlarmPercentage" color="red"></el-progress>
         </div>
       </el-col>
     </el-row>
@@ -53,11 +56,14 @@ export default {
         // {area: 'A3', time: 0, action: 1, duration: 0},
         // {area: 'A4', time: 0, action: 0, duration: 0}
       ],
-      currentDuration: 0
+      currentDuration: 0,
+      outsideAlarmTime: 60000,
+      lastMailSentID: 0
     }
   },
 
   methods: {
+
     getTime (t) {
       var date = new Date(t.time)
       return formatDate(date)
@@ -85,6 +91,17 @@ export default {
   },
 
   computed: {
+    getAlarmPercentage () {
+      var rate = this.outsideDuration * 1.0 / this.outsideAlarmTime
+      if (rate > 1) {
+        rate = 1
+        if (this.transections.length !== this.lastMailSentID) {
+          window.eventBus.$emit('auto_mail', {event: '区外丢失', details: `目标离开区域${this.transections[this.transections.length - 1].area}超过规定时间`})
+          this.lastMailSentID = this.transections.length
+        }
+      }
+      return parseInt(rate * 100)
+    },
     reversedTransections () {
       var result = []
       for (var i = this.transections.length - 1; i >= 0; i--) {
@@ -104,8 +121,6 @@ export default {
       return 0
     },
     getAreaDuration: function (index, time) {
-      console.log(index)
-      console.log(time)
       //   if (index === 0) {
       //     return this.currentDuration
       //   }

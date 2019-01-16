@@ -9,25 +9,16 @@
       type="text"
       v-model="details"
       @keyup.enter="sendEmail"
-    > -->
+    >-->
     <!-- <el-input
       type="textarea"
       autosize
       placeholder="请输入警报类型"
       v-model="event_type"
     >
-    </el-input> -->
-    <el-select
-      v-model="value"
-      placeholder="请选择警报类型"
-    >
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      >
-      </el-option>
+    </el-input>-->
+    <el-select v-model="value" placeholder="请选择警报类型">
+      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
     <div style="margin: 20px 0;"></div>
     <el-input
@@ -36,14 +27,9 @@
       placeholder="请输入警报内容"
       v-model="details"
       @keyup.enter="sendEmail"
-    >
-    </el-input>
+    ></el-input>
     <div class="button-row">
-      <el-button
-        class="send-button"
-        type="primary"
-        @click="sendEmail"
-      >发送邮件</el-button>
+      <el-button class="send-button" type="primary" @click="sendEmail">发送邮件</el-button>
     </div>
   </div>
 </template>
@@ -54,41 +40,82 @@ export default {
   data () {
     return {
       details: '',
-      options: [{
-        value: '黑客入侵',
-        label: '黑客入侵'
-      }, {
-        value: '人员伤亡',
-        label: '人员伤亡'
-      }, {
-        value: '员工早退',
-        label: '员工早退'
-      }, {
-        value: '地球末日',
-        label: '地球末日'
-      }, {
-        value: '该吃饭了',
-        label: '该吃饭了'
-      }],
+      options: [
+        {
+          value: '黑客入侵',
+          label: '黑客入侵'
+        },
+        {
+          value: '人员伤亡',
+          label: '人员伤亡'
+        },
+        {
+          value: '员工早退',
+          label: '员工早退'
+        },
+        {
+          value: '地球末日',
+          label: '地球末日'
+        },
+        {
+          value: '该吃饭了',
+          label: '该吃饭了'
+        }
+      ],
       value: ''
     }
   },
   methods: {
+    sendAutoEmail (event, details) {
+      var self = this
+      self.details = details
+      self.emailjs.init('user_r9Jpncka45g6pvtbz76yg')
+      if (event !== '' && details !== '') {
+        self.emailjs
+          .send('smtp_server', 'radar_system_notification', {
+            event_type: event,
+            details: details,
+            ejs_dashboard__test_template: true
+          })
+          .then(
+            function (response) {
+              self.$message({
+                message: '邮件发送成功！',
+                type: 'success'
+              })
+            },
+            function (error) {
+              self.$message.error('发送失败！' + error)
+            }
+          )
+        self.$message({
+          message: '邮件正在发送...'
+        })
+      } else {
+        alert('无效邮件！')
+      }
+    },
     sendEmail () {
       var self = this
       self.emailjs.init('user_r9Jpncka45g6pvtbz76yg')
       if (self.value !== '' && self.details !== '') {
-        self.emailjs.send('smtp_server', 'radar_system_notification', { 'event_type': this.value, 'details': this.details, 'ejs_dashboard__test_template': true }).then(
-          function (response) {
-            self.$message({
-              message: '邮件发送成功！',
-              type: 'success'
-            })
-          }
-          , function (error) {
-            self.$message.error('发送失败！' + error)
-          }
-        )
+        self.emailjs
+          .send('smtp_server', 'radar_system_notification', {
+            event_type: this.value,
+            details: this.details,
+            ejs_dashboard__test_template: true
+          })
+          .then(
+            function (response) {
+              self.$message({
+                message: '邮件发送成功！',
+                type: 'success'
+              })
+            },
+            function (error) {
+              self.$message.error('发送失败！' + error)
+            }
+          )
         self.$message({
           message: '邮件正在发送...'
         })
@@ -101,8 +128,11 @@ export default {
     this.emailjs = require('emailjs-com')
 
     var self = this
-    window.eventBus.$on('mail', (data) => {
+    window.eventBus.$on('mail', data => {
       self.details = JSON.stringify(data)
+    })
+    window.eventBus.$on('auto_mail', data => {
+      self.sendAutoEmail(data.event_type, data.details)
     })
   }
 }
