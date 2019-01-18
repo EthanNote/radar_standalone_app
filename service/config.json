@@ -1,0 +1,28 @@
+{
+  "server": {
+    "ip": "0.0.0.0",
+    "port": 5100
+  },
+
+  "radar":{
+    "correction":{
+      "angle":[1,-25],
+      "distance":[1,0]
+    }
+  },
+
+  "window":{
+    "title":"Radar Monitor",
+    "width":800,
+    "height":600
+  },
+
+  "graphics":{
+    "fps":60,
+    "ruller":[0,0,0,0.4],
+    "background":[1.0,1.0,1.0,0.0],
+    "hot":[0.7,0,0],
+    "cold":[0.5,1,0.5],
+    "cd_speed":0.1
+  }
+}
