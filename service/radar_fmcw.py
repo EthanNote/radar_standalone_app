@@ -50,6 +50,7 @@ class RadarTCPServer:
 
                     except Exception as e:
                         print(e)
+                time.sleep(1)
 
         if sub_thread:
             self.thread = Thread(target=server_thread)

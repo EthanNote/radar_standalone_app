@@ -194,7 +194,9 @@ export default {
     }
 
   },
-
+  created () {
+    window.parsed_points = this.points
+  },
   mounted () {
     var canvas = document.getElementById('canvas')
     var gl = canvas.getContext('experimental-webgl')
@@ -243,6 +245,7 @@ export default {
 
     window.eventBus.$on('dot', (arg) => {
       this.points.push([arg.x, arg.y, 1])
+      console.log('message on!' + this.points)
     })
 
     // gl.useProgram(programPoints)
