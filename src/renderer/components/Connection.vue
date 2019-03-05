@@ -3,7 +3,29 @@
     <h1>连接</h1>
     <el-button @click="connect" type="text" size="small">连接</el-button>
     <div>{{ status }}</div>
-    <div v-for="r in history">
+    <h1>设备</h1>
+      <el-table :data="devices">
+        <el-table-column
+          label="名称"
+          prop="name"
+        >
+        </el-table-column>
+        <el-table-column
+          label="状态"
+          prop="status"
+        >
+        </el-table-column>
+        <el-table-column
+          label="接收"
+          prop="recv"
+        >
+        </el-table-column>
+      </el-table>
+    <!-- <div v-for="d in devices" :key="d.index">
+      <h3>{{d.name}}</h3>
+      <p>{{d.status}}</p>
+    </div> -->
+    <div v-for="r in history" :key="r.index">
       <h3>{{ r.time }}</h3>
       <div>format = {{ r.format }}</div>
       <el-input
@@ -20,7 +42,10 @@ export default {
   data () {
     return {
       history: [],
-      status: '未连接'
+      status: '未连接',
+      devices: [
+        {id: 0, name: 'FMCW 24GHz', status: 'connected', recv: 0}
+      ]
     }
   },
 
@@ -58,6 +83,7 @@ export default {
         console.log('>' + data)
         var msg = data.replace(/[0-9][0-9]*:/, '').replace(/,$/, '')
         self.status = ('收到消息，长度 = ' + msg.length).toString()
+        self.devices[0].recv += 1
         var date = new Date()
         // date.setDate(date.getDate() + 1)
 
