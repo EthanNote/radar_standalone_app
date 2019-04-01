@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="connection">
     <h1>连接</h1>
     <el-button @click="connect" type="text" size="small">连接</el-button>
     <div>{{ status }}</div>
@@ -48,7 +48,6 @@ export default {
       ]
     }
   },
-
   methods: {
     formatDate (d) {
       var D = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09']
@@ -65,7 +64,6 @@ export default {
         ].join(':')
       ].join(' ')
     },
-
     connect () {
       var self = this
       this.client.connect(
@@ -78,7 +76,6 @@ export default {
           self.client.write('' + command.length + ':' + command + ',')
         }
       )
-
       this.client.on('data', function (data) {
         console.log('>' + data)
         var msg = data.replace(/[0-9][0-9]*:/, '').replace(/,$/, '')
@@ -88,7 +85,6 @@ export default {
         var date = new Date()
         // date.setDate(date.getDate() + 1)
         console.log('PARSE FAILED! >' + msg)
-
         var parsed = JSON.parse(msg)
         var format = 'string'
         if (parsed) {
@@ -103,7 +99,6 @@ export default {
       })
     }
   },
-
   created () {
     var self = this
     /* 创建简单的UDP服务器 */
@@ -112,11 +107,9 @@ export default {
     var client = new net.Socket()
     self.client = client
     client.setEncoding('ascii')
-
     window.eventBus.$on('console.log', arg => {
       console.log(arg)
     })
-
     // var server = dgrm.createSocket('udp4') // udp4为指定UDP通信的协议类型
     // server.on('message', function (msg, rinfo) {
     //   self.status = ('收到消息，长度 = ' + msg.length).toString()
@@ -141,7 +134,13 @@ export default {
 
 
 
-<style>
+<style scoped>
+.connection {
+  width: 100%;
+  margin-left: 5px;
+  border: 1px solid #f1f1f1;
+  max-width: 300px;
+}
 .message {
   width: 100%;
   border: 1px solid gray;
