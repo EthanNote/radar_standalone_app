@@ -4,7 +4,7 @@
         <h2 class ="rec" v-show="capture.remaining>0">● REC</h2>
         <video id="video" autoplay></video>
         <h2 class="videotime">{{ currenttime }}</h2>
-        <canvas hidden id='cvs' width="640" height="480"></canvas>
+        <canvas hidden id='cvs' width="480" height="320"></canvas>
     </div>
 </template>
 
