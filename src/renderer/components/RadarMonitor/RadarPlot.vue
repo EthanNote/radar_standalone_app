@@ -20,7 +20,6 @@
 // window.plotshow = function () {
 //   console.log('SHOW')
 // }
-
 var shaderlib = {
   points: {
     vert: `
@@ -33,7 +32,6 @@ var shaderlib = {
        heat = float(position.z);
     }    
     `,
-
     frag: `
     precision mediump float;
     varying float heat;
@@ -42,7 +40,6 @@ var shaderlib = {
     }
     `
   },
-
   axisLines: {
     vert: `
     attribute vec2 position;
@@ -52,7 +49,6 @@ var shaderlib = {
       gl_Position = vec4(p.xy,0.0, 1.0);
     }
     `,
-
     frag: `
     precision mediump float;
     void main() {
@@ -61,7 +57,6 @@ var shaderlib = {
     `
   }
 }
-
 var createProgram = function (gl, vs, fs) {
   var vertShader = gl.createShader(gl.VERTEX_SHADER)
   var fragShader = gl.createShader(gl.FRAGMENT_SHADER)
@@ -72,7 +67,6 @@ var createProgram = function (gl, vs, fs) {
   gl.compileShader(vertShader)
   gl.compileShader(fragShader)
   // gl.compileShader(geomShader)
-
   var program = gl.createProgram()
   gl.attachShader(program, vertShader)
   gl.attachShader(program, fragShader)
@@ -80,7 +74,6 @@ var createProgram = function (gl, vs, fs) {
   gl.linkProgram(program)
   return program
 }
-
 var pointsVertexGen = function (points) {
   var result = []
   var rad = 0.02
@@ -88,7 +81,6 @@ var pointsVertexGen = function (points) {
     result = result.concat([points[i][0] - rad, points[i][1] - rad, points[i][2]])
     result = result.concat([points[i][0] + rad, points[i][1] - rad, points[i][2]])
     result = result.concat([points[i][0] - rad, points[i][1] + rad, points[i][2]])
-
     result = result.concat([points[i][0] - rad, points[i][1] + rad, points[i][2]])
     result = result.concat([points[i][0] + rad, points[i][1] - rad, points[i][2]])
     result = result.concat([points[i][0] + rad, points[i][1] + rad, points[i][2]])
@@ -97,21 +89,16 @@ var pointsVertexGen = function (points) {
   // console.log(result)
   return result
 }
-
 export default {
   data () {
     return {
       points: [],
-
       zoom: 1.0,
       zoomLevel: 0,
       position: [0, -0.5]
-
     }
   },
-
   computed: {},
-
   methods: {
     draw () {
       var gl = this.gl
@@ -124,10 +111,8 @@ export default {
       )
       var positionLocation = gl.getAttribLocation(this.programPoints, 'position')
       var transformLocation = gl.getUniformLocation(this.programPoints, 'transform')
-
       var positionLocationAxis = gl.getAttribLocation(this.programAxis, 'position')
       var transformLocationAxis = gl.getUniformLocation(this.programAxis, 'transform')
-
       var transformMatrix =
         [ 0.75 * this.zoom, 0, 0,
           0, 1 * this.zoom, 0,
@@ -135,21 +120,18 @@ export default {
       if (this.points.length > 0) {
         gl.useProgram(this.programPoints)
         gl.uniformMatrix3fv(transformLocation, false, transformMatrix)
-
         gl.enableVertexAttribArray(positionLocation)
         gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0)
         // draw
         gl.drawArrays(gl.TRIANGLES, 0, this.points.length * 6)
       }
       gl.bindBuffer(gl.ARRAY_BUFFER, this.bufferAxis)
-
       gl.useProgram(this.programAxis)
       gl.uniformMatrix3fv(transformLocationAxis, false, transformMatrix)
       gl.enableVertexAttribArray(positionLocationAxis)
       gl.vertexAttribPointer(positionLocationAxis, 2, gl.FLOAT, false, 0, 0)
       gl.drawArrays(gl.LINES, 0, 128)
     },
-
     mousedown: function (event) {
       this.last_pos = {x: event.x, y: event.y}
       this.is_moving = true
@@ -164,7 +146,6 @@ export default {
         this.position[0] += (curPos.x - this.last_pos.x) * 0.005
         this.position[1] -= (curPos.y - this.last_pos.y) * 0.005
         this.last_pos = curPos
-
         // this.position[0] = this.old_position[0] + (this.down_pos.x - event.x) * 0.0001
         // this.position[1] = this.old_position[1] + (this.down_pos.y - event.y) * 0.0001
         // this.draw()
@@ -183,7 +164,6 @@ export default {
       // console.log(event)
       // console.log(this.zoom)
     },
-
     mouseenter: function () {
       // console.log('ENTER')
       window.document.body.style.overflow = 'hidden'
@@ -192,45 +172,37 @@ export default {
       // console.log('LEAVE')
       window.document.body.style.overflow = ''
     }
-
   },
-
+  created () {
+    window.parsed_points = this.points
+  },
   mounted () {
     var canvas = document.getElementById('canvas')
     var gl = canvas.getContext('experimental-webgl')
     this.gl = gl
-
     var programPoints = createProgram(gl, shaderlib.points.vert, shaderlib.points.frag)
     var programAxis = createProgram(gl, shaderlib.axisLines.vert, shaderlib.axisLines.frag)
-
     this.programPoints = programPoints
     this.programAxis = programAxis
-
     var bufferPoints = gl.createBuffer()
     this.bufferPoints = bufferPoints
-
     var bufferAxis = gl.createBuffer()
     this.bufferAxis = bufferAxis
-
     var axisVertex = [
       -100, 0, 100, 0, 0, -100, 0, 100, -100, 100, 0, 0, 0, 0, 100, 100
     ]
-
     for (var i = 1; i <= 50; i++) {
       axisVertex = axisVertex.concat([0, i / 5, i / 5, i / 5])
     }
-
     for (i = 1; i <= 10; i++) {
       axisVertex = axisVertex.concat([0, i, -i, i])
     }
     // var bufferAxis = gl.createBuffer()
-
     gl.bindBuffer(gl.ARRAY_BUFFER, this.bufferAxis)
     gl.bufferData(gl.ARRAY_BUFFER,
       // new Float32Array([-1, -1, 0, 1, -1, 0, -1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
       new Float32Array(axisVertex),
       gl.STATIC_DRAW)
-
     window.setInterval(() => {
       this.draw()
       for (var i in this.points) {
@@ -240,17 +212,14 @@ export default {
         }
       }
     }, 10)
-
     window.eventBus.$on('dot', (arg) => {
       this.points.push([arg.x, arg.y, 1])
+      // console.log('message on!' + this.points)
     })
-
     // gl.useProgram(programPoints)
-
     // var bufferPoints = gl.createBuffer()
     // this.bufferPoints = bufferPoints
     // gl.bindBuffer(gl.ARRAY_BUFFER, bufferPoints)
-
     // var points = [
     //   [-0.6, 0.6, 0.0],
     //   [-0.54, 0.6426, 0.05],
@@ -274,9 +243,7 @@ export default {
     //   [0.54, -0.6426, 0.95],
     //   [0.6, -0.6, 1.0]]
     // // var points = [[-0.5, -0.5, 1.0], [-0.2, 0.0, 1], [0.0, 0.0, 1.0]]
-
     // this.gl = gl
-
     // gl.bufferData(
     //   gl.ARRAY_BUFFER,
     //   // new Float32Array([-1, -1, 0, 1, -1, 0, -1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
@@ -285,38 +252,30 @@ export default {
     // )
     // var positionLocation = gl.getAttribLocation(programPoints, 'position')
     // var transformLocation = gl.getUniformLocation(programPoints, 'transform')
-
     // var positionLocationAxis = gl.getAttribLocation(programAxis, 'position')
     // var transformLocationAxis = gl.getUniformLocation(programAxis, 'transform')
-
     // var zoom = 1.0
     // var pos = [0, -0.5]
     // var transformMatrix =
     // [ 0.75 * zoom, 0, 0,
     //   0, 1 * zoom, 0,
     //   pos[0], pos[1], 1]
-
     // gl.uniformMatrix3fv(transformLocation, false, transformMatrix)
-
     // gl.enableVertexAttribArray(positionLocation)
     // gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0)
     // // draw
     // gl.drawArrays(gl.TRIANGLES, 0, 126)
-
     // gl.useProgram(programAxis)
     // var axisVertex = [
     //   -100, 0, 100, 0, 0, -100, 0, 100, -100, 100, 0, 0, 0, 0, 100, 100
     // ]
-
     // var bufferAxis = gl.createBuffer()
     // this.bufferAxis = bufferAxis
-
     // gl.bindBuffer(gl.ARRAY_BUFFER, bufferAxis)
     // gl.bufferData(gl.ARRAY_BUFFER,
     //   // new Float32Array([-1, -1, 0, 1, -1, 0, -1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
     //   new Float32Array(axisVertex),
     //   gl.STATIC_DRAW)
-
     // gl.uniformMatrix3fv(transformLocationAxis, false, transformMatrix)
     // gl.enableVertexAttribArray(positionLocationAxis)
     // gl.vertexAttribPointer(positionLocationAxis, 2, gl.FLOAT, false, 0, 0)
@@ -330,5 +289,4 @@ export default {
   width: 100%;
 }
 </style>
-
 

@@ -1,78 +1,109 @@
 <template>
   <el-row class="tac">
-    <el-col :span="6">
-      <div
-        style="background-color:gray;padding:1em;color:white;margin-right:1em;font-weight:bold;font-size:20px"
+    <div
+        style="background-color:gray;padding:1em;color:white;margin-right:1em;font-weight:bold;font-size:20px;width: 100%"
       >毫米波雷达安防系统</div>
-      <el-menu
-        default-active="2"
-        class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose"
-      >
+    <el-col :span="3.6"
+            background-color="#707070">
+      <el-radio-group v-model="isCollapse" style="margin-bottom: 15px;">
+        <el-radio-button type="text" :label="false">展开</el-radio-button>
+        <el-radio-button type="text" :label="true">收起</el-radio-button>
+      </el-radio-group>
+      <el-menu default-active="1-1" 
+         class="el-menu-vertical-demo" 
+         @open="handleOpen" 
+         @close="handleClose" 
+         :collapse="isCollapse"
+         :collapse-transition ="false"
+         active-text-color='#29A88D'
+         background-color="#707070"
+         text-color="#fff"
+         >
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-location"></i>
-            <span>定位</span>
+            <span slot="title">定位</span>
           </template>
-          <el-submenu index="1-1">
-            <template slot="title">地图</template>
-          </el-submenu>
-          <el-submenu index="1-2">
-            <template slot="title">轨迹</template>
-          </el-submenu>
+          <el-menu-item-group>
+            <el-menu-item index="1-1">
+              <span class="iconfont">&#xe620;</span>
+              <template slot="title">地图</template>
+            </el-menu-item>
+            <el-menu-item index="1-2">
+              <span class="iconfont">&#xe61c;</span>
+              <template slot="title">轨迹</template>
+            </el-menu-item>
+          </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
           <template slot="title">
             <i class="el-icon-setting"></i>
-            <span>设置</span>
+            <span slot="title">设置</span>
           </template>
-          <el-submenu index="2-1">
-            <template slot="title">设备</template>
-          </el-submenu>
-          <el-submenu index="2-2">
-            <template slot="title">服务器</template>
-          </el-submenu>
-          <el-submenu index="2-3">
-            <template slot="title">报警规则</template>
-          </el-submenu>
+          <el-menu-item-group>
+            <el-menu-item index="2-1">
+              <span class="iconfont">&#xe65e;</span>
+              <template slot="title">设备</template>
+            </el-menu-item>
+            <el-menu-item index="2-2">
+              <span class="iconfont">&#xe60a;</span>
+              <template slot="title">服务器</template>
+            </el-menu-item>
+            <el-menu-item index="2-3">
+              <span class="iconfont">&#xe62b;</span>
+              <template slot="title">报警规则</template>
+            </el-menu-item>
+          </el-menu-item-group>
         </el-submenu>
         <el-submenu index="3">
           <template slot="title">
             <i class="el-icon-document"></i>
-            <span>指南</span>
+            <span slot="title">指南</span>
           </template>
-          <el-submenu index="1-4">
-            <template slot="title">设备调试</template>
-          </el-submenu>
-          <el-submenu index="1-4">
-            <template slot="title">网络连接</template>
-          </el-submenu>
-          <el-submenu index="1-4">
-            <template slot="title">参数设置</template>
-          </el-submenu>
+          <el-menu-item-group>
+            <el-menu-item index="3-1">
+              <span class="iconfont">&#xe60b;</span>
+              <template slot="title">设备调试</template>
+            </el-menu-item>
+            <el-menu-item index="3-2">
+              <span class="iconfont">&#xe659;</span>
+              <template slot="title">网络连接</template>
+            </el-menu-item>
+            <el-menu-item index="3-3">
+              <span class="iconfont">&#xe608;</span>
+              <template slot="title">参数设置</template>
+            </el-menu-item>
+          </el-menu-item-group>
         </el-submenu>
         <el-submenu index="4">
           <template slot="title">
             <i class="el-icon-menu"></i>
-            <span>应用</span>
+            <span slot="title">应用</span>
           </template>
-          <el-submenu index="4-1">
-            <template slot="title">安防警报</template>
-          </el-submenu>
-          <el-submenu index="4-2">
-            <template slot="title">门禁统计</template>
-          </el-submenu>
-          <el-submenu index="4-3">
-            <template slot="title">家庭看护</template>
-          </el-submenu>
+          <el-menu-item-group>
+            <el-menu-item index="4-1">
+              <span class="iconfont">&#xe65b;</span>
+              <template slot="title">安防警报</template>
+            </el-menu-item>
+            <el-menu-item index="4-2">
+              <span class="iconfont">&#xe63e;</span>
+              <template slot="title">门禁统计</template>
+            </el-menu-item>
+            <el-menu-item index="4-3">
+              <span class="iconfont">&#xe697;</span>
+              <template slot="title">家庭看护</template>
+            </el-menu-item>
+          </el-menu-item-group>
         </el-submenu>
       </el-menu>
     </el-col>
-    <el-col :span="18">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-col  style="padding-left: 20px;width: 85%">
+      <el-tabs v-model="activeName" @tab-click="handleClick" >
         <el-tab-pane label="设备监控" name="first">
-          <radar-monitor></radar-monitor>
+          <div style="display: flex;">
+            <radar-monitor></radar-monitor>
+            <connection></connection>
+          </div>
         </el-tab-pane>
         <el-tab-pane label="用户管理" name="second">
           <user-list></user-list>
@@ -80,23 +111,26 @@
         <el-tab-pane label="记录回放" name="third">
           <play-back></play-back>
         </el-tab-pane>
-        <el-tab-pane label="连接管理" name="fourth">
+      <!--  <el-tab-pane label="连接管理" name="fourth">
           <connection></connection>
-        </el-tab-pane>
-        <el-tab-pane label="警报邮件" name="fifth">
+        </el-tab-pane> -->
+        <el-tab-pane label="警报邮件" name="fourth">
           <warn-notify></warn-notify>
         </el-tab-pane>
-        <el-tab-pane label="进程管理" name="sixth">
+        <el-tab-pane label="进程管理" name="fifth">
           <workers></workers>
         </el-tab-pane>
-        <el-tab-pane label="隧道测距" name="seventh">
+        <el-tab-pane label="隧道测距" name="sixth">
           <tunnel></tunnel>
         </el-tab-pane>
-        <el-tab-pane label="帧统计" name="eighth">
+        <el-tab-pane label="帧统计" name="sevenh">
           <frame-statics></frame-statics>
         </el-tab-pane>
-        <el-tab-pane label="区外离线检测" name="nineth">
+        <el-tab-pane label="区外离线检测" name="eighth">
           <transection-monitor></transection-monitor>
+        </el-tab-pane>
+        <el-tab-pane label="警报管理" name="ninth">
+          <warn-management></warn-management>
         </el-tab-pane>
       </el-tabs>
     </el-col>
@@ -113,6 +147,7 @@ import Workers from './Workers'
 import Tunnel from './Tunnel'
 import FrameStatics from './FrameStatics'
 import TransectionMonitor from './TransectionMonitor'
+import WarnManagement from './WarnManagement'
 export default {
   name: 'radar-home',
   components: {
@@ -125,11 +160,13 @@ export default {
     Workers,
     Tunnel,
     FrameStatics,
-    TransectionMonitor
+    TransectionMonitor,
+    WarnManagement
   },
   data () {
     return {
-      activeName: 'first'
+      activeName: 'first',
+      isCollapse: true
     }
   },
   methods: {
@@ -145,3 +182,9 @@ export default {
   }
 }
 </script>
+
+<style>
+  .pane-first.el-tab-pane {
+    display: flex !important;
+  }
+</style>
