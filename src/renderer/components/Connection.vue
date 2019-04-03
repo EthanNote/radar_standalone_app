@@ -79,7 +79,7 @@ export default {
       this.client.on('data', function (data) {
         console.log('>' + data)
         var msg = data.replace(/[0-9][0-9]*:/, '').replace(/,$/, '')
-        msg = msg.replace(/,[0-9][0-9]*:/, ',@').split(',@')[0]
+        msg = msg.replace(/}}}/, '}}},@').split(',@')[0]
         self.status = ('收到消息，长度 = ' + msg.length).toString()
         self.devices[0].recv += 1
         var date = new Date()
