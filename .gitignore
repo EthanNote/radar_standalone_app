@@ -9,3 +9,6 @@ npm-debug.log.*
 thumbs.db
 !.gitkeep
 capture
+service/__pycache__/
+service/logs/
+*.pyc
