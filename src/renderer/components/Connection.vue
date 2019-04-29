@@ -1,7 +1,6 @@
 <template>
   <div class="connection">
-    <h1>连接</h1>
-    <el-button @click="connect" type="text" size="small">连接</el-button>
+    <h1>连接管理</h1>
     <div>{{ status }}</div>
     <h1>设备</h1>
       <el-table :data="devices">
@@ -74,17 +73,18 @@ export default {
           self.status = '已连接'
           var command = '{"rename":"ELECTRON_CLIENT"}'
           self.client.write('' + command.length + ':' + command + ',')
+          window.eventBus.$emit('link', self.status)
         }
       )
       this.client.on('data', function (data) {
-        console.log('>' + data)
+        // console.log('>' + data)
         var msg = data.replace(/[0-9][0-9]*:/, '').replace(/,$/, '')
         msg = msg.replace(/}}}/, '}}},@').split(',@')[0]
         self.status = ('收到消息，长度 = ' + msg.length).toString()
         self.devices[0].recv += 1
         var date = new Date()
         // date.setDate(date.getDate() + 1)
-        console.log('PARSE FAILED! >' + msg)
+        // console.log('PARSE FAILED! >' + msg)
         var parsed = JSON.parse(msg)
         var format = 'string'
         if (parsed) {
@@ -99,6 +99,9 @@ export default {
       })
     }
   },
+  mounted () {
+    this.connect()
+  },
   created () {
     var self = this
     /* 创建简单的UDP服务器 */
@@ -108,7 +111,7 @@ export default {
     self.client = client
     client.setEncoding('ascii')
     window.eventBus.$on('console.log', arg => {
-      console.log(arg)
+      // console.log(arg)
     })
     // var server = dgrm.createSocket('udp4') // udp4为指定UDP通信的协议类型
     // server.on('message', function (msg, rinfo) {

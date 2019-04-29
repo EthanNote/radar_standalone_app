@@ -76,7 +76,7 @@ var createProgram = function (gl, vs, fs) {
 }
 var pointsVertexGen = function (points) {
   var result = []
-  var rad = 0.02
+  var rad = 0.05
   for (var i in points) {
     result = result.concat([points[i][0] - rad, points[i][1] - rad, points[i][2]])
     result = result.concat([points[i][0] + rad, points[i][1] - rad, points[i][2]])

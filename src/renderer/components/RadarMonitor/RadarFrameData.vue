@@ -1,49 +1,40 @@
 <template>
   <div>
     <h3>数据记录</h3>
-    <el-table
-      :data="tableData"
-      style="width: 100%">
-      <el-table-column
-        prop="index"
-        label="Index"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="id"
-        label="ID"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="location"
-        label="Location">
-      </el-table-column>
-    </el-table>
+     <table>
+      <tr class="text">
+        <td class="tab">Index</td>
+        <td class="tab">横坐标X</td>
+        <td class="tab">纵坐标Y</td>
+      </tr>
+      <tr class="text" 
+          v-for="(dots,index) in List"
+          :key="index">
+        <td class="tab">{{index}}</td>
+        <td class="tab">{{dots.x}}</td>
+        <td class="tab">{{dots.y}}</td>
+      </tr>
+    </table>
   </div>
-  </template>
+</template>
 
-  <script>
-    export default {
-      data () {
-        return {
-          tableData: [{
-            index: '0',
-            id: '1',
-            location: '0,0'
-          }, {
-            index: '1',
-            id: '1',
-            location: '0,0'
-          }, {
-            index: '2',
-            id: '2',
-            location: '0,0'
-          }, {
-            index: '3',
-            id: '2',
-            location: '0,0'
-          }]
-        }
-      }
+<script>
+export default {
+  data () {
+    return {
+      List: []
     }
-  </script>
+  },
+  mounted () {
+    window.eventBus.$on('dot', (arg) => {
+      console.log(arg)
+      var msg = {x: '', y: ''}
+      if (msg.x !== arg.x) {
+        msg.x = arg.x
+        msg.y = arg.y
+        this.List.push(msg)
+      }
+    })
+  }
+}
+</script>
