@@ -12,3 +12,4 @@ capture
 service/__pycache__/
 service/logs/
 *.pyc
+capture/
