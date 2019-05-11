@@ -66,34 +66,20 @@ export default {
     }
   },
   methods: {
-    sendAutoEmail (event, details) {
-      var self = this
-      self.details = details
-      self.emailjs.init('user_r9Jpncka45g6pvtbz76yg')
-      if (event !== '' && details !== '') {
-        self.emailjs
-          .send('smtp_server', 'radar_system_notification', {
-            event_type: event,
-            details: details,
-            ejs_dashboard__test_template: true
-          })
-          .then(
-            function (response) {
-              self.$message({
-                message: '邮件发送成功！',
-                type: 'success'
-              })
-            },
-            function (error) {
-              self.$message.error('发送失败！' + error)
-            }
-          )
-        self.$message({
-          message: '邮件正在发送...'
-        })
-      } else {
-        alert('无效邮件！')
-      }
+    sendAutoEmail () {
+      var email = require('emailjs')
+      var server = email.server.connect({
+        user: 'sunmc7777777@163.com',
+        password: 'sunmengchen1995',
+        host: 'smtp.163.com',
+        ssl: true
+      })
+      server.send({
+        text: '有人闯入监控区域!!!',
+        from: 'sunmc7777777@163.com',
+        to: '1183276929@qq.com',
+        subject: '测试案例'
+      }, function (err, message) { console.log(err || message) })
     },
     sendEmail () {
       var self = this
@@ -125,14 +111,13 @@ export default {
     }
   },
   created () {
-    this.emailjs = require('emailjs-com')
-
+    // this.emailjs = require('emailjs-com')
     var self = this
     window.eventBus.$on('mail', data => {
       self.details = JSON.stringify(data)
     })
-    window.eventBus.$on('auto_mail', data => {
-      self.sendAutoEmail(data.event_type, data.details)
+    window.eventBus.$on('warnning', event => {
+      self.sendAutoEmail()
     })
   }
 }

@@ -1,8 +1,9 @@
 <template>
-  <el-table :data="contents" stripe>
+  <el-table :data="contents" 
+            stripe>
     <el-table-column v-for="(item, index) in contentsTitle" :key="index" :label="item">
       <template scope="scope">
-        <span>{{scope.row[index]}}</span>
+        <span style="margin-left: 10px">{{scope.row[index]}}</span>
       </template>
     </el-table-column>
   </el-table>
@@ -19,9 +20,9 @@ export default {
   methods: {
   },
   mounted () {
-    window.eventBus.$on('warnning', (message) => {
-      console.log(message)
-      this.contents.push(message)
+    window.eventBus.$on('warnning', (event) => {
+      console.log(event)
+      this.contents.push(event)
     })
   }
 }

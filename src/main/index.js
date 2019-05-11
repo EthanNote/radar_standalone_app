@@ -10,6 +10,8 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
+const ipc = require('electron').ipcMain
+let newwin
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
@@ -31,6 +33,19 @@ function createWindow () {
     mainWindow = null
   })
 }
+
+ipc.on('warnning', () => {
+  newwin = new BrowserWindow({
+    width: 600,
+    height: 400,
+    frame: true,
+    parent: mainWindow
+  })
+  newwin.loadURL(`file://C:/Users/sunmc/Desktop/Radar/radar_standalone_app/src/main/new.html`)
+  newwin.on('closed', () => {
+    newwin = null
+  })
+})
 
 app.on('ready', createWindow)
 
