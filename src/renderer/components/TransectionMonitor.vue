@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <el-row  class="background">
+  <div class="animated fadeInDown">
+    <el-row  class="background" >
       <el-col :span="18">
         <div>
           <el-row v-for="(t, i) in reversedTransections" :key="t.index" :class="'act'+t.action">

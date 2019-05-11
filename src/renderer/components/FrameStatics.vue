@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div>
+    <div >
       <h1>多目标统计</h1>
-      <div class="animated bounceInUp">
-        <canvas id="mutgt_dstbt" width="1920" height="900"></canvas>
+      <div class="animated zoomIn">
+        <canvas id="mutgt_dstbt" width="1920" height="900" ></canvas>
       </div>
-      <el-table :data="getMultargetStatics" height="250" border style="width: 100%">
+      <el-table :data="getMultargetStatics" height="250" border style="width: 100%" >
         <el-table-column prop="targetcount" label="目标数" width="180"></el-table-column>
         <el-table-column prop="framecount" label="帧数" width="180"></el-table-column>
         <el-table-column prop="sourcetime" label="来源时间"></el-table-column>

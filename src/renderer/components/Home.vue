@@ -194,7 +194,6 @@
   </el-row>
 </template>
 <script>
-import SideMenu from './SideMenu'
 import RadarMonitor from './RadarMonitor'
 import UserList from './UserList'
 import PlayBack from './PlayBack'
@@ -210,7 +209,6 @@ import WarnMessage from './WarnMessage/WarnMessage'
 export default {
   name: 'radar-home',
   components: {
-    SideMenu,
     RadarMonitor,
     UserList,
     PlayBack,

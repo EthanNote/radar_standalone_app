@@ -4,10 +4,10 @@
             :data="this.user.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
             style="width: 100%"
             :default-sort="{prop: 'createdDate', order: 'descending'}"
+            class="animated bounceInUp slow"
         >
             <el-table-column
                 label="姓名"
-                width="180"
             >
                 <template slot-scope="scope">
                     <span style="margin-left: 10px">{{ scope.row.name }}</span>
@@ -16,7 +16,6 @@
             <el-table-column
                 prop="email"
                 label="电子邮件"
-                width="180"
             >
             </el-table-column>
             <el-table-column
@@ -28,7 +27,6 @@
             <el-table-column
                 prop="level"
                 label="权限级别"
-                sortable
             >
                 <template slot-scope="scope">
                     <el-button

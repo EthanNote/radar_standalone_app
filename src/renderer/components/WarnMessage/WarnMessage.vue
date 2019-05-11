@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="contents" stripe>
+  <el-table :data="contents" stripe class="animated bounceInUp">
     <el-table-column v-for="(item, index) in contentsTitle" :key="index" :label="item">
       <template scope="scope">
         <span>{{scope.row[index]}}</span>

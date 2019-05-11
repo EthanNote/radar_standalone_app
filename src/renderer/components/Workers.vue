@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h3>进程管理</h3>
+    <!-- <h3>进程管理</h3> -->
    
     <el-row>
-      <el-table :data="processList" height="250" border style="width: 100%">
+      <el-table :data="processList" height="250" border style="width: 100%" class="animated bounce">
         <el-table-column prop="name" label="名称" width="180"></el-table-column>
         <el-table-column prop="state" label="状态" width="180"></el-table-column>
         <el-table-column prop="command" label="命令" ></el-table-column>

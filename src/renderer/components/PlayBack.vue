@@ -2,7 +2,7 @@
   <div>
     <el-row :gutter="5">
       <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-        <div class="grid-content bg-purple animated bounce">
+        <div class="grid-content bg-purple animated slideInLeft">
           <div class="capture">
               <svg id="svgcontent" width="640" height="480" x="0" y="0" overflow="hidden" xmlns="http://www.w3.org/2000/svg" xmlns:se="http://svg-edit.googlecode.com" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 580 400"><!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ --><g style="pointer-events:none"><title style="pointer-events:inherit">background</title><rect x="-1" y="-1" width="582" height="402" id="canvas_background" fill="#fff" style="pointer-events:inherit"></rect><g id="canvasGrid" width="100%" height="100%" x="0" y="0" overflow="visible" display="none"><rect width="100%" height="100%" x="0" y="0" stroke-width="0" stroke="none" fill="url(#gridpattern)" style="pointer-events: none; display:visible;"></rect></g></g><g style="pointer-events:all"><title style="pointer-events:inherit">Layer 1</title><rect fill="#fff" stroke-width="15.5" x="44.500015794014416" y="30.43749243330967" width="494.9999687238001" height="342.9999772558153" id="svg_1" stroke-dasharray="none" fill-opacity="1" stroke-opacity="1" opacity="1" stroke="#323f3f"></rect><rect fill="#fff" stroke-width="0" x="21.5" y="61.4375" width="59" height="138.99999080776087" id="svg_2" stroke-dasharray="none" stroke="#323f3f"></rect><rect fill="#fff" stroke-width="1" x="68.5" y="251.43750363588333" width="141.99999906871852" height="101.00000114340801" id="svg_4" stroke-dasharray="none" stroke="#323f3f"></rect></g>
               
