@@ -1,5 +1,5 @@
 <template>
-    <div id="radarvideo" >
+    <div id="radarvideo"  class="animated zoomInDown fast">
         <h3>视频</h3>
         <h2 class ="rec" v-show="capture.remaining>0">● REC</h2>
         <video id="video" autoplay></video>

@@ -1,5 +1,5 @@
 <template>
-  <div class="connection">
+  <div class="connection animated bounceInUp">
     <h1>连接管理</h1>
     <div>{{ status }}</div>
     <h1>设备</h1>

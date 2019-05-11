@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="animated bounceInUp">
     <h3>数据记录</h3>
      <!-- <table>
       <tr class="text">
