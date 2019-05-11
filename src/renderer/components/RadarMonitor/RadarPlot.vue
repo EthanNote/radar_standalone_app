@@ -43,16 +43,20 @@ var shaderlib = {
   axisLines: {
     vert: `
     attribute vec2 position;
+    attribute float weight;
     uniform mat3 transform;
+    varying float color;
     void main(){
       vec3 p = transform * vec3(position.xy, 1.0);
       gl_Position = vec4(p.xy,0.0, 1.0);
+      color = 1.0-weight;
     }
     `,
     frag: `
     precision mediump float;
+    varying float color;
     void main() {
-      gl_FragColor = vec4(0.0,0.5,0.0,1.0);
+      gl_FragColor = vec4(color,color,color,1.0);
     }
     `
   }
@@ -93,9 +97,11 @@ export default {
   data () {
     return {
       points: [],
-      zoom: 1.0,
+      zoom: 0.25,
       zoomLevel: 0,
-      position: [0, -0.5]
+      position: [0, -0.5],
+      axisSpace: 1.0,
+      axisLineCount: 0
     }
   },
   computed: {},
@@ -112,6 +118,7 @@ export default {
       var positionLocation = gl.getAttribLocation(this.programPoints, 'position')
       var transformLocation = gl.getUniformLocation(this.programPoints, 'transform')
       var positionLocationAxis = gl.getAttribLocation(this.programAxis, 'position')
+      var weightLocationAxis = gl.getAttribLocation(this.programAxis, 'weight')
       var transformLocationAxis = gl.getUniformLocation(this.programAxis, 'transform')
       var transformMatrix =
         [ 0.75 * this.zoom, 0, 0,
@@ -125,12 +132,29 @@ export default {
         // draw
         gl.drawArrays(gl.TRIANGLES, 0, this.points.length * 6)
       }
+
+      var bestfit = 0.2
+      var fixedZoom = this.zoom * 1.0
+      while (Math.abs(fixedZoom / 10 - bestfit) < Math.abs(fixedZoom - bestfit)) {
+        fixedZoom /= 10
+      }
+      while (Math.abs(fixedZoom * 10 - bestfit) < Math.abs(fixedZoom - bestfit)) {
+        fixedZoom *= 10
+      }
+
+      transformMatrix =
+        [ 0.75 * fixedZoom, 0, 0,
+          0, 1 * fixedZoom, 0,
+          0.75 * this.position[0], this.position[1], 1]
+
       gl.bindBuffer(gl.ARRAY_BUFFER, this.bufferAxis)
       gl.useProgram(this.programAxis)
       gl.uniformMatrix3fv(transformLocationAxis, false, transformMatrix)
       gl.enableVertexAttribArray(positionLocationAxis)
-      gl.vertexAttribPointer(positionLocationAxis, 2, gl.FLOAT, false, 0, 0)
-      gl.drawArrays(gl.LINES, 0, 128)
+      gl.enableVertexAttribArray(weightLocationAxis)
+      gl.vertexAttribPointer(positionLocationAxis, 2, gl.FLOAT, false, 12, 0)
+      gl.vertexAttribPointer(weightLocationAxis, 1, gl.FLOAT, false, 12, 8)
+      gl.drawArrays(gl.LINES, 0, this.axisLineCount)
     },
     mousedown: function (event) {
       this.last_pos = {x: event.x, y: event.y}
@@ -156,11 +180,21 @@ export default {
     },
     mousewheel: function (event) {
       if (event.deltaY > 0) {
-        this.zoomLevel += 1
+        // this.zoomLevel += 1
+        this.zoom *= 1.1
       } else {
-        this.zoomLevel -= 1
+        // this.zoomLevel -= 1
+        this.zoom /= 1.1
       }
-      this.zoom = Math.pow(2, this.zoomLevel / 5)
+
+      event = event || window.event
+
+      if (event.stopPropagation) event.stopPropagation()
+      else event.cancelBubble = true
+
+      if (event.preventDefault) event.preventDefault()
+      else event.returnValue = false
+      // this.zoom = Math.pow(2, this.zoomLevel / 5)
       // console.log(event)
       // console.log(this.zoom)
     },
@@ -188,21 +222,37 @@ export default {
     this.bufferPoints = bufferPoints
     var bufferAxis = gl.createBuffer()
     this.bufferAxis = bufferAxis
-    var axisVertex = [
-      -100, 0, 100, 0, 0, -100, 0, 100, -100, 100, 0, 0, 0, 0, 100, 100
-    ]
-    for (var i = 1; i <= 50; i++) {
-      axisVertex = axisVertex.concat([0, i / 5, i / 5, i / 5])
+
+    var axisVertex = []
+    var axisIndexRange = 80
+    for (let axisIndex = -axisIndexRange; axisIndex <= axisIndexRange; axisIndex++) {
+      let weight = 0.4
+      if (axisIndex % 5 === 0) {
+        weight = 0.8
+      }
+      axisVertex = axisVertex.concat([this.axisSpace * axisIndex, this.axisSpace * axisIndexRange, weight, this.axisSpace * axisIndex, -this.axisSpace * axisIndexRange, weight])
+      axisVertex = axisVertex.concat([-this.axisSpace * axisIndexRange, this.axisSpace * axisIndex, weight, this.axisSpace * axisIndexRange, this.axisSpace * axisIndex, weight])
+      this.axisLineCount += 4
     }
-    for (i = 1; i <= 10; i++) {
-      axisVertex = axisVertex.concat([0, i, -i, i])
-    }
+
+    // var axisVertex = [
+    //   -100, 0, 100, 0, 0, -100, 0, 100, -100, 100, 0, 0, 0, 0, 100, 100
+    // ]
+    // for (var i = 1; i <= 50; i++) {
+    //   axisVertex = axisVertex.concat([0, i / 5, i / 5, i / 5])
+    // }
+    // for (i = 1; i <= 10; i++) {
+    //   axisVertex = axisVertex.concat([0, i, -i, i])
+    // }
     // var bufferAxis = gl.createBuffer()
+    console.log('VERTEX: ')
+    console.log(axisVertex)
     gl.bindBuffer(gl.ARRAY_BUFFER, this.bufferAxis)
     gl.bufferData(gl.ARRAY_BUFFER,
       // new Float32Array([-1, -1, 0, 1, -1, 0, -1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
       new Float32Array(axisVertex),
       gl.STATIC_DRAW)
+    console.log(this.bufferAxis)
     window.setInterval(() => {
       this.draw()
       for (var i in this.points) {
