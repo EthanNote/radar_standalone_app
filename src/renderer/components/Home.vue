@@ -114,7 +114,7 @@
         </el-submenu>
       </el-menu>
     </el-col>
-    <el-col :span="23">
+    <el-col :span="22">
       <el-tabs
         v-model="activeName"
         @tab-click="handleClick"

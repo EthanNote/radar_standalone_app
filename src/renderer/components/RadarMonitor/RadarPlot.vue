@@ -166,11 +166,11 @@ export default {
     },
     mouseenter: function () {
       // console.log('ENTER')
-      window.document.body.style.overflow = 'hidden'
+      // window.document.body.style.overflow = 'hidden'
     },
     mouseleave: function () {
       // console.log('LEAVE')
-      window.document.body.style.overflow = ''
+      // window.document.body.style.overflow = ''
     }
   },
   created () {
