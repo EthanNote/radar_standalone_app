@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <canvas id="distance_chart" width="1920" height="900"></canvas>
+      <canvas id="distance_chart" width="1920" height="900" class="animated pulse"></canvas>
     </div>
     <h1 class="current_distance">当前距离： {{ measures[measures.length-1].distance }}m</h1>
     <el-button @click="updateChart">update</el-button>

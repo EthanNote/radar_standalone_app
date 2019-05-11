@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div>
+    <div >
       <h1>多目标统计</h1>
-      <div>
+      <div class="animated bounceInUp">
         <canvas id="mutgt_dstbt" width="1920" height="900"></canvas>
       </div>
       <el-table :data="getMultargetStatics" height="250" border style="width: 100%">

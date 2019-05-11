@@ -92,13 +92,14 @@ export default {
   border-radius: 4px;
 }
 .bg-purple-dark {
-  background: #99a9bf;
+  /* background: #99a9bf; */
+  background-color: #d3dce6
 }
 .bg-purple {
-  background: #d3dce6;
+  background: white;
 }
 .bg-purple-light {
-  background: #e5e9f2;
+  background: white;
 }
 .grid-content {
   padding: 5px;

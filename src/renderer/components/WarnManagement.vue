@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <warn-header></warn-header>
     <warn-management1></warn-management1>
     <warn-table></warn-table>

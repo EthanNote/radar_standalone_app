@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="animated fadeInRight">
     <audio id="audio" src="/static/audio/130808.wav"/>
     <div class="container">
   	  <canvas class="stage" id="mystage" width="400" height="600" @mousedown="mousedown($event)" @mouseup="mouseup($event)"

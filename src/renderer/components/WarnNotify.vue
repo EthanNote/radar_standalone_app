@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="animated zoomIn">
     <!-- <input
       type="text"
       v-model="event_type"

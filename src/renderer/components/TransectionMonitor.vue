@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="animated fadeInDown">
     <el-row  class="background">
       <el-col :span="18">
         <div>

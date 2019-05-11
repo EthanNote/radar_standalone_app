@@ -1,5 +1,5 @@
 <template>
-  <table class="table">
+  <table>
     <tr class="text">
       <td class="tab">位置</td>
       <td class="tab">横坐标X</td>

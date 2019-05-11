@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="animated bounceInUp">
     <h3>进程管理</h3>
    
     <el-row>

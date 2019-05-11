@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="animated bounceInUp">
     <h3>数据记录</h3>
-     <table>
+     <!-- <table>
       <tr class="text">
         <td class="tab">Index</td>
         <td class="tab">横坐标X</td>
@@ -14,7 +14,31 @@
         <td class="tab">{{dots.x}}</td>
         <td class="tab">{{dots.y}}</td>
       </tr>
-    </table>
+    </table> -->
+     <el-table
+    :data="List"
+    style="width: 100%"
+    :default-sort = "{prop: 'index', order: 'descending'}"
+    >
+    <el-table-column
+      prop="index"
+      label="Index"
+      sortable
+      width="180">
+    </el-table-column>
+    
+    <el-table-column
+      prop="dots.x"
+      label="横坐标 X"
+      width="180">
+    </el-table-column>
+    <el-table-column
+      prop="dots.y"
+      label="纵坐标 Y"
+      :formatter="formatter">
+    </el-table-column>
+  </el-table>
+
   </div>
 </template>
 

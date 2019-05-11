@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import './assets/styles/iconfont.css'
-
+import animated from 'animate.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
@@ -14,6 +14,7 @@ Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
+Vue.use(animated)
 
 window.eventBus = new Vue()
 /* eslint-disable no-new */

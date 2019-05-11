@@ -1,23 +1,29 @@
 <template>
   <el-row class="tac">
-    <div style="background-color:gray;padding:1em 0 1em 1em;color:white;font-weight:bold;font-size:20px;width: 100%"> 
+    <div style="background-color:#409EFF;padding:1em 0 1em 1em;color:white;font-weight:bold;font-size:20px;width: 100%"
+            class="animated pulse"
+    > 
       <span>毫米波雷达安防系统</span>
       <div style="float: right;padding-right: 1em;">{{this.states}}</div>
     </div>
-    <el-col :span="3"
+    <el-col :span="1"
             background-color="#707070">
-      <el-radio-group v-model="isCollapse" style="margin-bottom: 5px;margin-top: 5px">
-        <div class="button">
-          <el-radio-button type="text" :label="false"><span class="iconfont">&#xe68a;</span></el-radio-button>
+      <el-radio-group v-model="isCollapse" style="margin-bottom: 5px;margin-top: 5px" > 
+        <!-- <div class="button">
+          <el-radio-button type="text" :label="open" @click="open = !open"><span class="iconfont">&#xe68a;</span></el-radio-button>
+          
           <el-radio-button type="text" :label="true"><span class="iconfont">&#xe6bf;</span></el-radio-button>
-        </div>
+        </div> -->
+        <el-button style="border:none" @click="open=!open" :label="true"><span class="iconfont">&#xe68a;</span></el-button>
       </el-radio-group>
       <el-menu default-active="1-1" 
-         class="el-menu-vertical-demo" 
+         class="el-menu-vertical-demo animated flipInX" 
          @open="handleOpen" 
          @close="handleClose" 
-         :collapse="isCollapse"
-         :collapse-transition ="false"
+         :collapse-transition="false"
+         :collapse="true"
+         :label="true"
+         v-if="!open"
          >
         <el-submenu index="1">
           <template slot="title">
@@ -97,7 +103,7 @@
         </el-submenu>
       </el-menu>
     </el-col>
-    <el-col  style="padding-left: 20px;width: 85%">
+    <el-col :span="23">
       <el-tabs v-model="activeName" @tab-click="handleClick" >
         <el-tab-pane label="设备监控" name="first">
           <div style="display: flex;">
@@ -156,6 +162,7 @@ import FrameStatics from './FrameStatics'
 import TransectionMonitor from './TransectionMonitor'
 import WarnManagement from './WarnManagement'
 import WarnMessage from './WarnMessage/WarnMessage'
+// import func from './vue-temp/vue-editor-bridge'
 export default {
   name: 'radar-home',
   components: {
@@ -176,7 +183,8 @@ export default {
     return {
       activeName: 'first',
       isCollapse: false,
-      states: '未连接'
+      states: '未连接',
+      open: true
     }
   },
   methods: {
@@ -188,6 +196,9 @@ export default {
     },
     handleClose (key, keyPath) {
       console.log(key, keyPath)
+    },
+    isOpen () {
+      this.open = !this.open
     }
   },
   mounted () {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3>雷达</h3>
-    <div id="plot">
+    <div id="plot" class="animated pulse">
       <!-- <svg id="svg" viewBox="0,0,500,500" width="100%" height="100%">
             <g :transform="transform_str">
                 <line v-for="l in lines" :x1="l[0]" :y1="l[1]" :x2="l[2]" :y2="l[3]" />
@@ -166,11 +166,11 @@ export default {
     },
     mouseenter: function () {
       // console.log('ENTER')
-      window.document.body.style.overflow = 'hidden'
+      // window.document.body.style.overflow = 'hidden'
     },
     mouseleave: function () {
       // console.log('LEAVE')
-      window.document.body.style.overflow = ''
+      // window.document.body.style.overflow = ''
     }
   },
   created () {
