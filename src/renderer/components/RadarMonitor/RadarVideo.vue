@@ -83,13 +83,13 @@ export default {
       self.currenttime = formatDate(date)
       if (self.capture.remaining > 0) {
         self.capture.remaining -= 1
-        console.log(self.capture.remaining)
+        // console.log(self.capture.remaining)
         video_capture()
         var fname = save_canvas_to_file()
         self.capture.capturedFiles.push(fname)
         if (self.capture.remaining <= 0) {
-          console.log('Capture finished')
-          console.log(JSON.stringify(self.capture.capturedFiles))
+          // console.log('Capture finished')
+          // console.log(JSON.stringify(self.capture.capturedFiles))
           self.capture.capturedFiles = []
         }
       }

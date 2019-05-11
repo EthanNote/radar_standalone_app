@@ -1,13 +1,16 @@
 <template>
   <el-row class="tac">
-    <div
-        style="background-color:gray;padding:1em;color:white;margin-right:1em;font-weight:bold;font-size:20px;width: 100%"
-      >毫米波雷达安防系统</div>
-    <el-col :span="3.6"
+    <div style="background-color:gray;padding:1em 0 1em 1em;color:white;font-weight:bold;font-size:20px;width: 100%"> 
+      <span>毫米波雷达安防系统</span>
+      <div style="float: right;padding-right: 1em;">{{this.states}}</div>
+    </div>
+    <el-col :span="3"
             background-color="#707070">
-      <el-radio-group v-model="isCollapse" style="margin-bottom: 15px;">
-        <el-radio-button type="text" :label="false">展开</el-radio-button>
-        <el-radio-button type="text" :label="true">收起</el-radio-button>
+      <el-radio-group v-model="isCollapse" style="margin-bottom: 5px;margin-top: 5px">
+        <div class="button">
+          <el-radio-button type="text" :label="false"><span class="iconfont">&#xe68a;</span></el-radio-button>
+          <el-radio-button type="text" :label="true"><span class="iconfont">&#xe6bf;</span></el-radio-button>
+        </div>
       </el-radio-group>
       <el-menu default-active="1-1" 
          class="el-menu-vertical-demo" 
@@ -15,9 +18,6 @@
          @close="handleClose" 
          :collapse="isCollapse"
          :collapse-transition ="false"
-         active-text-color='#29A88D'
-         background-color="#707070"
-         text-color="#fff"
          >
         <el-submenu index="1">
           <template slot="title">
@@ -101,8 +101,12 @@
       <el-tabs v-model="activeName" @tab-click="handleClick" >
         <el-tab-pane label="设备监控" name="first">
           <div style="display: flex;">
-            <radar-monitor></radar-monitor>
-            <connection></connection>
+            <div style="width: 80%">
+              <radar-monitor></radar-monitor>
+            </div>
+            <div style="width: 20%">
+              <connection></connection>
+            </div>
           </div>
         </el-tab-pane>
         <el-tab-pane label="用户管理" name="second">
@@ -132,6 +136,9 @@
         <el-tab-pane label="警报管理" name="ninth">
           <warn-management></warn-management>
         </el-tab-pane>
+        <el-tab-pane label="警报消息记录" name="tenth">
+          <warn-message></warn-message>
+        </el-tab-pane>
       </el-tabs>
     </el-col>
   </el-row>
@@ -148,6 +155,7 @@ import Tunnel from './Tunnel'
 import FrameStatics from './FrameStatics'
 import TransectionMonitor from './TransectionMonitor'
 import WarnManagement from './WarnManagement'
+import WarnMessage from './WarnMessage/WarnMessage'
 export default {
   name: 'radar-home',
   components: {
@@ -161,12 +169,14 @@ export default {
     Tunnel,
     FrameStatics,
     TransectionMonitor,
-    WarnManagement
+    WarnManagement,
+    WarnMessage
   },
   data () {
     return {
       activeName: 'first',
-      isCollapse: true
+      isCollapse: false,
+      states: '未连接'
     }
   },
   methods: {
@@ -179,6 +189,12 @@ export default {
     handleClose (key, keyPath) {
       console.log(key, keyPath)
     }
+  },
+  mounted () {
+    window.eventBus.$on('link', (status) => {
+      this.states = status
+      console.log(status)
+    })
   }
 }
 </script>

@@ -1,12 +1,12 @@
 <template>
   <div>
     <el-row :gutter="5">
-      <el-col :xs="24" :sm="18" :md="12" :lg="12" :xl="12">
+      <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
         <div class="grid-content bg-purple">
           <radar-plot></radar-plot>
         </div>
       </el-col>
-      <el-col :xs="24" :sm="18" :md="12" :lg="12" :xl="12">
+      <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
         <div class="grid-content bg-purple">
           <radar-video></radar-video>
         </div>
