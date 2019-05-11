@@ -141,8 +141,8 @@ export default {
 .connection {
   width: 100%;
   margin-left: 5px;
-  border: 1px solid #f1f1f1;
-  max-width: 300px;
+  /* border: 1px solid #f1f1f1;
+  max-width: 300px; */
 }
 .message {
   width: 100%;

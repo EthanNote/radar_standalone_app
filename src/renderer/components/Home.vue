@@ -1,24 +1,41 @@
 <template>
   <el-row class="tac">
-    <div style="background-color:gray;padding:1em 0 1em 1em;color:white;font-weight:bold;font-size:20px;width: 100%"> 
+    <div
+      style="background-color:#409EFF;padding:1em 0 1em 1em;color:white;font-weight:bold;font-size:20px;width: 100%"
+      class="animated pulse"
+    >
       <span>毫米波雷达安防系统</span>
       <div style="float: right;padding-right: 1em;">{{this.states}}</div>
     </div>
-    <el-col :span="3"
-            background-color="#707070">
-      <el-radio-group v-model="isCollapse" style="margin-bottom: 5px;margin-top: 5px">
-        <div class="button">
-          <el-radio-button type="text" :label="false"><span class="iconfont">&#xe68a;</span></el-radio-button>
+    <el-col
+      :span="1"
+      background-color="#707070"
+    >
+      <el-radio-group
+        v-model="isCollapse"
+        style="margin-bottom: 5px;margin-top: 5px"
+      >
+        <!-- <div class="button">
+          <el-radio-button type="text" :label="open" @click="open = !open"><span class="iconfont">&#xe68a;</span></el-radio-button>
+          
           <el-radio-button type="text" :label="true"><span class="iconfont">&#xe6bf;</span></el-radio-button>
-        </div>
+        </div> -->
+        <el-button
+          style="border:none"
+          @click="open=!open"
+          :label="true"
+        ><span class="iconfont">&#xe68a;</span></el-button>
       </el-radio-group>
-      <el-menu default-active="1-1" 
-         class="el-menu-vertical-demo" 
-         @open="handleOpen" 
-         @close="handleClose" 
-         :collapse="isCollapse"
-         :collapse-transition ="false"
-         >
+      <el-menu
+        default-active="1-1"
+        class="el-menu-vertical-demo animated flipInX"
+        @open="handleOpen"
+        @close="handleClose"
+        :collapse-transition="false"
+        :collapse="true"
+        :label="true"
+        v-if="!open"
+      >
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-location"></i>
@@ -97,9 +114,15 @@
         </el-submenu>
       </el-menu>
     </el-col>
-    <el-col  style="padding-left: 20px;width: 85%">
-      <el-tabs v-model="activeName" @tab-click="handleClick" >
-        <el-tab-pane label="设备监控" name="first">
+    <el-col :span="23">
+      <el-tabs
+        v-model="activeName"
+        @tab-click="handleClick"
+      >
+        <el-tab-pane
+          label="设备监控"
+          name="first"
+        >
           <div style="display: flex;">
             <div style="width: 80%">
               <radar-monitor></radar-monitor>
@@ -109,34 +132,61 @@
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="用户管理" name="second">
+        <el-tab-pane
+          label="用户管理"
+          name="second"
+        >
           <user-list></user-list>
         </el-tab-pane>
-        <el-tab-pane label="记录回放" name="third">
+        <el-tab-pane
+          label="记录回放"
+          name="third"
+        >
           <play-back></play-back>
         </el-tab-pane>
-      <!--  <el-tab-pane label="连接管理" name="fourth">
+        <!--  <el-tab-pane label="连接管理" name="fourth">
           <connection></connection>
         </el-tab-pane> -->
-        <el-tab-pane label="警报邮件" name="fourth">
+        <el-tab-pane
+          label="警报邮件"
+          name="fourth"
+        >
           <warn-notify></warn-notify>
         </el-tab-pane>
-        <el-tab-pane label="进程管理" name="fifth">
+        <el-tab-pane
+          label="进程管理"
+          name="fifth"
+        >
           <workers></workers>
         </el-tab-pane>
-        <el-tab-pane label="隧道测距" name="sixth">
+        <el-tab-pane
+          label="隧道测距"
+          name="sixth"
+        >
           <tunnel></tunnel>
         </el-tab-pane>
-        <el-tab-pane label="帧统计" name="sevenh">
+        <el-tab-pane
+          label="帧统计"
+          name="sevenh"
+        >
           <frame-statics></frame-statics>
         </el-tab-pane>
-        <el-tab-pane label="区外离线检测" name="eighth">
+        <el-tab-pane
+          label="区外离线检测"
+          name="eighth"
+        >
           <transection-monitor></transection-monitor>
         </el-tab-pane>
-        <el-tab-pane label="警报管理" name="ninth">
+        <el-tab-pane
+          label="警报管理"
+          name="ninth"
+        >
           <warn-management></warn-management>
         </el-tab-pane>
-        <el-tab-pane label="警报消息记录" name="tenth">
+        <el-tab-pane
+          label="警报消息记录"
+          name="tenth"
+        >
           <warn-message></warn-message>
         </el-tab-pane>
       </el-tabs>
@@ -156,6 +206,7 @@ import FrameStatics from './FrameStatics'
 import TransectionMonitor from './TransectionMonitor'
 import WarnManagement from './WarnManagement'
 import WarnMessage from './WarnMessage/WarnMessage'
+// import func from './vue-temp/vue-editor-bridge'
 export default {
   name: 'radar-home',
   components: {
@@ -176,7 +227,8 @@ export default {
     return {
       activeName: 'first',
       isCollapse: false,
-      states: '未连接'
+      states: '未连接',
+      open: true
     }
   },
   methods: {
@@ -188,6 +240,9 @@ export default {
     },
     handleClose (key, keyPath) {
       console.log(key, keyPath)
+    },
+    isOpen () {
+      this.open = !this.open
     }
   },
   mounted () {
@@ -200,7 +255,7 @@ export default {
 </script>
 
 <style>
-  .pane-first.el-tab-pane {
-    display: flex !important;
-  }
+.pane-first.el-tab-pane {
+  display: flex !important;
+}
 </style>

@@ -12,4 +12,9 @@
 
 <style>
   /* CSS */
+  body {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  font-family: Consolas, "Microsoft YaHei"
+}
 </style>
